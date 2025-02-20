@@ -1,13 +1,7 @@
-<style>
-body {
-    font-family: "Latin Modern Roman", "TeX Gyre Termes", serif;
-    font-size: 16px;
-}
-</style>
 # 📜 Database design and UML
 
 ## 1️⃣ Introduction 
-This document describes the system structure based on a **UML Class Diagram**, detailing the main entities, their attributes, and relationships. This design is essential to ensure a solid backend development for the **Virtual REC Backend** project, maintaining consistency in the database and the REST API.
+This document describes the system structure based on a **UML Class Diagram**, detailing the main entities, their attributes, and relationships. The **Virtual REC.0** project is a digital adaptation of the REC.0 of Igualada, an event focused on transforming old industrial areas into creative and commercial spaces. This virtual version aims to bring the unique shopping experience of REC.0 to an online platform (e-commerce), allowing users to explore shops, purchase products, and interact within a structured digital marketplace.
 
 ---
 
