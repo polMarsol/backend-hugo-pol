@@ -1,97 +1,100 @@
-# 📜 Diseño de Base de Datos y UML
+<style>
+body {
+    font-family: "Latin Modern Roman", "TeX Gyre Termes", serif;
+    font-size: 16px;
+}
+</style>
+# 📜 Database design and UML
 
-## 1️⃣ Introducción  
-Este documento describe la estructura del sistema basada en un **Diagrama UML de Clases**, detallando las entidades principales, sus atributos y las relaciones entre ellas. Este diseño es crucial para garantizar un desarrollo sólido del backend del proyecto **Virtual REC Backend**, asegurando coherencia en la base de datos y la API REST.
+## 1️⃣ Introduction 
+This document describes the system structure based on a **UML Class Diagram**, detailing the main entities, their attributes, and relationships. This design is essential to ensure a solid backend development for the **Virtual REC Backend** project, maintaining consistency in the database and the REST API.
 
 ---
 
 ## 2️⃣ Justificación del UML  
-El diagrama UML refleja los requerimientos del proyecto según el enunciado, organizando el sistema en **usuarios, tiendas, productos y pedidos**. A continuación, se explica cada parte del diseño:
+The UML diagram represents the project requirements according to the statement, organizing the system into **users, shops, products, and orders**. Below is an explanation of each part of the design:
 
-### **👤 Modelo de Usuario (`User`)**  
-- **Motivo:** Centraliza la información común de los diferentes tipos de usuario.  
+### **👤 User Model (`User`)**  
+- **Reason:** Centralizes common information for different user types. 
 - **Roles:**  
-  - `Admin`: Gestiona el sistema, crea tiendas y vendedores.  
-  - `Salesperson`: Administra sus propias tiendas y productos.  
-  - `Shopper`: Compra productos y realiza pedidos.  
-- **Métodos principales:**  
-  - `signIn()` y `signOut()` para autenticación.  
-  - `updateData()` para actualizar perfil.  
+  - `Admin`: Manages the system, creates shops and salespeople.  
+  - `Salesperson`: Manages their own shops and products.
+  - `Shopper`: Buys products and places orders.  
+- **Main methods:**  
+  - `signIn()` and `signOut()` for authentication.  
+  - `updateData()` in order to update the profile.  
 
 ---
 
-### **🏪 Modelo de Tienda (`Shop`)**  
-- **Motivo:** Representa una tienda dentro del sistema.  
-- **Propiedades principales:**  
-  - `name`, `description`, `categories` (clasificación de la tienda).  
-- **Relaciones:**  
-  - Cada tienda pertenece a un `Salesperson`.  
-  - Puede contener múltiples `Product`.  
+### **🏪 Shop Model (`Shop`)**  
+- **Motivo:** Represents the shop within the system. 
+- **Main properties:**  
+  - `name`, `description`, `categories` (shop classification).  
+- **Relationships:**  
+  - Each shop belongs to a `Salesperson`.  
+  - It can contain multiple `Product` instances.  
 
 ---
 
-### **📦 Modelo de Producto (`Product`)**  
-- **Motivo:** Permite a los vendedores gestionar sus productos.  
-- **Propiedades:**  
+### **📦 Product Model (`Product`)**  
+- **Reason:** Allows salespeople to manage their products. 
+- **Properties:**  
   - `name`, `description`, `price`, `size`, `images`.  
-- **Relaciones:**  
-  - Pertenece a una única `Shop`.  
-  - Puede recibir múltiples `Review`.  
+- **Relationships:**  
+  - Belongs to a single `Shop`.  
+  - Can receive multiple `Review` instances.  
 
 ---
 
-### **📜 Modelo de Pedido (`Order`)**  
-- **Motivo:** Representa un pedido hecho por un `Shopper`.  
-- **Propiedades:**  
-  - `address`: Ahora usa la clase `Address` en lugar de solo un string.  
-  - `status`: Representa el estado del pedido.  
-- **Métodos:**  
-  - `updateStatus()`: Modifica el estado de la orden.  
-  - `cancelOrder()`: Permite cancelar un pedido si aún no ha sido enviado.  
-- **Relaciones:**  
-  - Un `Shopper` puede realizar múltiples pedidos.  
-  - Cada `Order` puede contener varios `Product`.  
-  - Se asocia con una `Shop`, asegurando que los productos sean de la misma tienda.  
+### **📜 Order Model (`Order`)**  
+- **Reason:** Represents an order placed by a `Shopper`.  
+- **Properties:**  
+  - `address`: Uses the `Address` class instead of just a string.  
+  - `status`: Represents the order status.  
+- **Methods:**  
+  - `updateStatus()`: Changes the order status.
+  - `cancelOrder()`: Allows order cancellation if not yet shipped. 
+- **Relationships:**  
+  - A `Shopper` can place multiple orders.  
+  - Each `Order` can contain several `Product` instances.  
+  - It is linked to a `Shop`, ensuring products come from the same store.  
 
 ---
 
-### **📍 Modelo de Dirección (`Address`)**  
-- **Motivo:** Permite a los compradores guardar varias direcciones de entrega.  
-- **Relación:**  
-  - Un `Shopper` puede tener múltiples `Address`.  
+### **📍 Address Model (`Address`)**  
+- **Reason:** Allows shoppers to save multiple delivery addresses. 
+- **Relationship:**  
+  - A `Shopper` can have multiple `Address` instances.  
 
 ---
 
-### **⭐ Modelo de Reseñas (`Review`)**  
-- **Motivo:** Permite que los compradores califiquen productos y tiendas.  
-- **Propiedades:**  
-  - `rating`: Puntuación del 1 al 5.  
-  - `comment`: Opinión del usuario.  
-  - `date`: Fecha de la reseña.  
-- **Relaciones:**  
-  - Un `Shopper` puede escribir múltiples `Review`.  
-  - Un `Product` o `Shop` puede tener muchas reseñas.  
+### **⭐ Review Model (`Review`)**  
+- **Motivo:** Allows shoppers to rate products and shops. 
+- **Properties:**  
+  - `rating`: Score from 1 to 5.  
+  - `comment`: User opinion.  
+  - `date`: Date of the review.  
+- **Relationships:**  
+  - A `Shopper` can write multiple `Review` instances.  
+  - A `Product` or `Shop` can have many reviews.  
 
 ---
 
-## 3️⃣ 📌 Relaciones en el UML  
-- `User <|-- Admin`, `User <|-- Salesperson`, `User <|-- Shopper`: Herencia de la clase `User`.  
-- `Admin "1" -- "1..N" Salesperson`: Un admin puede crear múltiples vendedores.  
-- `Salesperson "1" -- "1..N" Shop`: Un vendedor gestiona una o más tiendas.  
-- `Shop "1" -- "0..N" Product`: Una tienda vende múltiples productos.  
-- `Shopper "1" -- "0..N" Order`: Un comprador puede hacer múltiples pedidos.  
-- `Order "1" -- "1..N" Product`: Un pedido puede contener múltiples productos.  
-- `Shopper "1" -- "0..N" Address`: Un comprador puede registrar varias direcciones.  
-- `Shopper "1" -- "0..N" Review`: Un comprador puede escribir varias reseñas.  
+## 3️⃣ 📌 UML Relationships
+- `User <|-- Admin`, `User <|-- Salesperson`, `User <|-- Shopper`: Inheritance from the `User` class because all are types of User.  
+- `Admin "1" -- "1..N" Salesperson`: An admin can create multiple salespeople. 
+- `Salesperson "1" -- "1..N" Shop`: A salesperson manages one or more shops.
+- `Shop "1" -- "0..N" Product`: A shop sells multiple products.
+- `Shopper "1" -- "0..N" Order`: A shopper can place multiple orders.
+- `Order "1" -- "1..N" Product`: An order can contain multiple products.
+- `Shopper "1" -- "0..N" Address`: A shopper can register several addresses.
+- `Shopper "1" -- "0..N" Review`: A shopper can write multiple reviews.
 
 ---
 
-## 4️⃣ 🔹 Conclusión  
-Este diseño UML garantiza una estructura clara y modular, alineada con los requisitos del proyecto **Virtual REC Backend**. Las relaciones establecidas optimizan la funcionalidad de la base de datos y facilitan la implementación de la API REST.
-
-
-
+## 4️⃣ 🔹 UML Class Diagram
 ```mermaid
+%%{init: {'theme':'neutral'}}%%
 classDiagram
     direction TB
     
@@ -188,7 +191,4 @@ classDiagram
     Shop "1" -- "0..N" Review: has >
     Shopper "1" -- "0..N" Address: has >
 ```
-
-![Diagrama UML](images/uml_part1.png)
-(images/uml_part2.png)
 
