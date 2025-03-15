@@ -17,7 +17,7 @@ const initDb = () => {
             id INTEGER PRIMARY KEY,
             name TEXT NOT NULL,
             username TEXT UNIQUE NOT NULL,
-            password TEXT NOT NULL,
+            passwordHash TEXT NOT NULL,
             email TEXT UNIQUE NOT NULL,
             role TEXT NOT NULL
         )`);
@@ -88,6 +88,60 @@ const initDb = () => {
             FOREIGN KEY(orderId) REFERENCES orders(id),
             FOREIGN KEY(productId) REFERENCES products(id)
         )`);
+        db.run(`INSERT INTO users (name, username, password, email, role) VALUES 
+            ('Juan Pérez', 'juanp', 'hashedpassword1', 'juan@example.com', 'shopper'),
+            ('María García', 'mariag', 'hashedpassword2', 'maria@example.com', 'seller'),
+            ('Carlos López', 'carlosl', 'hashedpassword3', 'carlos@example.com', 'admin')
+        `);
+
+        // Shops
+        db.run(`INSERT INTO shops (ownerId, name, description) VALUES 
+            (2, 'Tienda de María', 'Tienda de ropa y accesorios'),
+            (3, 'ElectroCarlos', 'Venta de productos electrónicos')
+        `);
+
+        // Shop Categories
+        db.run(`INSERT INTO shop_categories (shopId, type) VALUES 
+            (1, 'Ropa'),
+            (1, 'Accesorios'),
+            (2, 'Electrónica')
+        `);
+
+        // Product Descriptions
+        db.run(`INSERT INTO product_descriptions (productName, description, price, size) VALUES 
+            ('Camiseta Azul', 'Camiseta de algodón color azul', 19.99, 'M'),
+            ('Pantalón Negro', 'Pantalón de mezclilla negro', 39.99, 'L'),
+            ('Smartphone X', 'Teléfono inteligente con 128GB de almacenamiento', 599.99, NULL)
+        `);
+
+        // Products
+        db.run(`INSERT INTO products (name, shopId, productDescriptionId) VALUES 
+            ('Camiseta Azul', 1, 1),
+            ('Pantalón Negro', 1, 2),
+            ('Smartphone X', 2, 3)
+        `);
+
+        // Product Images
+        db.run(`INSERT INTO product_images (productId, image) VALUES 
+            (1, 'camiseta_azul.jpg'),
+            (2, 'pantalon_negro.jpg'),
+            (3, 'smartphone_x.jpg')
+        `);
+
+        // Orders
+        db.run(`INSERT INTO orders (shopperId, shopId, address, status, totalPrice) VALUES 
+            (1, 1, 'Calle 123, Ciudad A', 'pending', 59.98),
+            (1, 2, 'Av. 456, Ciudad B', 'shipped', 599.99)
+        `);
+
+        // Order List Products
+        db.run(`INSERT INTO order_list_products (orderId, productId, quantity, totalProductPrice) VALUES 
+            (1, 1, 1, 19.99),
+            (1, 2, 1, 39.99),
+            (2, 3, 1, 599.99)
+        `);
+
+        console.log("Sample data inserted successfully.");
     })
 }
 
