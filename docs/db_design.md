@@ -93,115 +93,12 @@ classDiagram
     direction TB
     
     class User {
-        +name: String
-        +username: String
-        +password: String
-        +email: String
-        +role: String
-        +signIn(username, password): User
-        +signOut(): Boolean
-        +updateData(currentPassword, newName, newEmail, newPassword): Boolean
-
-    }
-    
-    class Admin {
-        +createSalesperson(name, username, email, password, role): User
-        +createAdmin(name, username, email, password, role): User
-        +createShop(ownerId, shopName, description, categories): Shop
-        +deleteShop(shopId): Boolean
-
-    }
-    
-    class Salesperson {
-        +listShops(): List<Shop>
-        +listProducts(shopId): List<Product>
-        +createProduct(shopId, name, description, price, size, images): Product
-        +updateProduct(productId, newName, newDescription, newPrice, newSize, newImages): Boolean
-        +deleteProduct(productId): Boolean
-        +listOrders(shopId): List<Order>
-        +updateOrderStatus(orderId, newStatus): Boolean
-        +updateShop(shopId, newName, newDescription, newCategories): Boolean
-    }
-    
-    class Shopper {
-        +signUp(name, username, email, password): Boolean
-        +browseShops(): List<Shop>
-        +browseProducts(shopId): List<Product>
-        +placeOrder(shopId, productList, address): Order
-        +listOrders(): List<Order>
-        +addAddress(street, city, zipCode, country): Boolean
-        +removeAddress(addressId): Boolean
-        +listAddresses(): List<Address>
-    }
-
-    class Address {
-        +street: String
-        +city: String
-        +zipCode: String
-        +country: String
-    }
-
-    class Shop {
-        +name: String
-        +description: String
-        +categories: List<String>
-    }
-
-    class Product {
-        +name: String
-        +description: String
-        +images: List<String>
-        +price: Float
-        +size: String
-    }
-
-    class Order {
-        +address: String
-        +status: String
-        +updateStatus(String): Boolean
-        +cancelOrder(): Boolean
-    }
-
-    class Review {
-    +rating: Int
-    +comment: String
-    +date: Date
-}
-
-    
-    %% Relaciones entre clases
-    User <|-- Admin
-    User <|-- Salesperson
-    User <|-- Shopper
-
-    Admin "1" -- "1..N" Salesperson: creates >
-    Salesperson "1" -- "1..N" Shop: owns >
-    Shop "1" -- "0..N" Product: sells >
-    Shopper "1" -- "0..N" Order: places >
-    Order "1" -- "1..N" Product: contains >
-    Shop "1" -- "0..N" Order: receives >
-    Shopper "1" -- "0..N" Review: writes >
-    Product "1" -- "0..N" Review: has >
-    Shop "1" -- "0..N" Review: has >
-    Shopper "1" -- "0..N" Address: has >
-```
-
-
-
-
-## 4️⃣ 🔹 UML Class Diagram
-```mermaid
-%%{init: {'theme':'neutral'}}%%
-classDiagram
-    direction TB
-    
-    class User {
         +id: String
         +name: String
         +username: String
         +password: String
         +email: String
-        +role: Enum<String>
+        +role: String
     }
 
     class Shop {
@@ -209,22 +106,30 @@ classDiagram
         +ownerId: String
         +name: String
         +description: String
-        +categories: List<String>
+    }
+
+    class ShopCategories {
+        +idshop: String
+        +type: String
     }
 
     class Product {
         +id: String
+        +name: String
         +shopId: String
         +productDescriptionId: String
     }
 
     class ProductDescription {
-        +id: String
-        +name: String
+        +productName: String
         +description: String
-        +images: List<String>
         +price: Float
         +size: String
+    }
+
+    class ProductImages {
+        +productid: String
+        +image: String
     }
 
     class Order {
@@ -233,107 +138,31 @@ classDiagram
         +shopId: String
         +address: String
         +status: Enum<String>
+        +totalPrice: Float
     }
 
-    class OrderItem {
+    class OrderListProducts {
         +orderId: String
         +productId: String
         +quantity: Int
-        +priceAtPurchase: Float
+        +totalProductPrice: Float
     }
 
-    User "1" -- "1..N" Shop: manage >
-    Product "1" -- "1" ProductDescription: has >
+    User "1" -- "1..N" Shop: owner of >  <!-- Salesperson -->
+    User "1..N" -- "0..N" Shop: buy in > <!-- Shopper -->
+    User "1" -- "0..N" Order: create >
+
     Shop "1" -- "0..N" Product: sells >
     Shop "1" -- "0..N" Order: processes >
-    Order "1" -- "1..N" OrderItem: contains >
-    Product "1" -- "0..N" OrderItem: part of >
-```
+    Shop "1" -- "1..N" ShopCategories: has >
+    Shop "1" -- "1..N" OrderListProducts: has >
 
+    Product "1" -- "1" Shop: assigned to >
+    Product "1" -- "1" ProductDescription: has >
+    ProductDescription "1" -- "1..N" ProductImages: has >
 
-
-```mermaid
-%%{init: {'theme':'neutral'}}%%
-classDiagram
-    direction TB
-
-    class User {
-        +id: INT
-        +name: VARCHAR(255)
-        +username: VARCHAR(255)
-        +password: VARCHAR(255)
-        +email: VARCHAR(255)
-        +role: ENUM
-    }
-
-    class Shop {
-        +id: INT
-        +ownerId: INT
-        +name: VARCHAR(255)
-        +description: TEXT
-    }
-
-    class Category {
-        +id: INT
-        +name: VARCHAR(255)
-    }
-
-    class ShopCategory {
-        +shopId: INT
-        +categoryId: INT
-    }
-
-    class ProductDescription {
-        +id: INT
-        +name: VARCHAR(255)
-        +description: TEXT
-        +price: DECIMAL(10,2)
-        +size: VARCHAR(50)
-    }
-
-    class Product {
-        +id: INT
-        +shopId: INT
-        +productDescriptionId: INT
-    }
-
-    class ProductCategory {
-        +productId: INT
-        +categoryId: INT
-    }
-
-    class ProductImage {
-        +id: INT
-        +productId: INT
-        +imageUrl: VARCHAR(255)
-    }
-
-    class OrderTable {
-        +id: INT
-        +shopperId: INT
-        +shopId: INT
-        +address: TEXT
-        +status: ENUM
-    }
-
-    class OrderItem {
-        +orderId: INT
-        +productId: INT
-        +quantity: INT
-        +priceAtPurchase: DECIMAL(10,2)
-    }
-
-    %% Relaciones entre tablas
-    User "1" -- "1..N" Shop: owns >
-    Shop "1" -- "0..N" Product: sells >
-    Product "1" -- "1" ProductDescription: describes >
-    Shop "1" -- "0..N" OrderTable: processes >
-    OrderTable "1" -- "1..N" OrderItem: contains >
-    Product "1" -- "0..N" OrderItem: part of >
-    Category "1" -- "0..N" ShopCategory: categorizes >
-    Shop "1" -- "0..N" ShopCategory: belongsTo >
-    Category "1" -- "0..N" ProductCategory: categorizes >
-    Product "1" -- "0..N" ProductCategory: belongsTo >
-    Product "1" -- "0..N" ProductImage: hasImage >
+    Order "1" -- "1..N" OrderListProducts: contains >
+    Order "1" -- "1" User: associated >
+    OrderListProducts "1" -- "0..N" Product: contains >
 
 ```
