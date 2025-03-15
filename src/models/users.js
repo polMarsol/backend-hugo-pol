@@ -2,17 +2,20 @@ const db = require("../utils/db")
 
 const createUser = user => {
     return new Promise((resolve, reject) => {
-        const { username, name, passwordHash } = user
+        const {name, username, passwordHash, email, role } = user
 
-        const sql = "INSERT INTO users (username, name, passwordHash) VALUES (?, ?, ?)"
+        const sql = "INSERT INTO users (name, username, passwordHash, email, role) VALUES (?, ?, ?, ?, ?)"
 
-        db.run(sql, [username, name, passwordHash], function (err) {
+        db.run(sql, [name, username, passwordHash, email, role], function (err) {
             err
                 ? reject(err)
                 : resolve({
                     id: this.lastID,
+                    name: name,
                     username: username,
-                    name: name
+                    passwordHash: passwordHash,
+                    email: email,
+                    role: role
                 })
         })
     })
@@ -26,4 +29,13 @@ const getAllUsers = () => {
     })
 }
 
-module.exports = { createUser, getAllUsers }
+const getUserByUsername = username => {
+    return new Promise((resolve, reject) => {
+        const sql = "SELECT * FROM users where users.username = ?"
+        db.get(sql, [username], (err, row) => {
+            err ? reject(err) : resolve(row)
+        })
+    })
+}
+
+module.exports = { createUser, getAllUsers, getUserByUsername }
