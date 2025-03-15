@@ -1,7 +1,7 @@
 const db = require("../utils/db")
 const productsModel = require("./products")
 const usersModel = require("./users")
-const productsDescriptionModel = require("./productsDescription")
+const productDescriptionModel = require("./productDescription")
 const shopsModel = require("./shops")
 const ordersModel = require("./orders")
 const orderListProductsModel = require("./orderListProducts")
@@ -88,10 +88,10 @@ const initDb = () => {
             FOREIGN KEY(orderId) REFERENCES orders(id),
             FOREIGN KEY(productId) REFERENCES products(id)
         )`);
-        db.run(`INSERT INTO users (name, username, password, email, role) VALUES 
+        db.run(`INSERT INTO users (name, username, passwordHash, email, role) VALUES 
             ('Juan Pérez', 'juanp', 'hashedpassword1', 'juan@example.com', 'shopper'),
             ('María García', 'mariag', 'hashedpassword2', 'maria@example.com', 'seller'),
-            ('Carlos López', 'carlosl', 'hashedpassword3', 'carlos@example.com', 'admin')
+            ('Carlos López', 'admin', 'admin1234', 'carlos@example.com', 'admin')
         `);
 
         // Shops
@@ -146,5 +146,5 @@ const initDb = () => {
 }
 
 module.exports = {
-    initDb, productsModel, usersModel, productsDescriptionModel, shopsModel, ordersModel, orderListProductsModel, productImagesModel, shopCategoriesModel
+    initDb, productsModel, usersModel, productDescriptionModel, shopsModel, ordersModel, orderListProductsModel, productImagesModel, shopCategoriesModel
 }
