@@ -92,8 +92,8 @@ The UML diagram represents the project requirements according to the statement, 
 classDiagram
     direction TB
     
-    class User {
-        +id: String
+    class Users {
+        +id: Int
         +name: String
         +username: String
         +password: String
@@ -101,26 +101,27 @@ classDiagram
         +role: String
     }
 
-    class Shop {
-        +id: String
-        +ownerId: String
+    class Shops {
+        +id: Int
+        +ownerId: Int
         +name: String
         +description: String
     }
 
     class ShopCategories {
-        +idshop: String
+        +idshop: Int
         +type: String
     }
 
-    class Product {
-        +id: String
+    class Products {
+        +id: Int
         +name: String
-        +shopId: String
-        +productDescriptionId: String
+        +shopId: Int
+        +productDescriptionId: Int
     }
 
     class ProductDescription {
+        +id: Int
         +productName: String
         +description: String
         +price: Float
@@ -128,22 +129,24 @@ classDiagram
     }
 
     class ProductImages {
-        +productid: String
+        +id: Int
+        +productid: Int
         +image: String
     }
 
-    class Order {
-        +id: String
-        +shopperId: String
-        +shopId: String
+    class Orders {
+        +id: Int
+        +shopperId: Int
+        +shopId: Int
         +address: String
         +status: Enum<String>
         +totalPrice: Float
     }
 
     class OrderListProducts {
-        +orderId: String
-        +productId: String
+        +id: Int
+        +orderId: Int
+        +productId: Int
         +quantity: Int
         +totalProductPrice: Float
     }
