@@ -13,5 +13,6 @@ app.use(middleware.requestLogger)
 app.use("/api/users", usersRouter)
 
 app.use(middleware.unknownEndpoint)
+app.use(middleware.errorHandlerUser)
 
 module.exports = app

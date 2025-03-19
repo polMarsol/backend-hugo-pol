@@ -55,7 +55,9 @@ Content-Type: application/json
 {
 "name": "User1",
 "username": "user1",
-"password": "mypass",
+"passwordHash": "mypass",
+"email": "user1@gmail.com",
+"role": "admin"
 }
 
 ####
