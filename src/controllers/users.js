@@ -2,68 +2,6 @@ const bcrypt = require('bcrypt')
 const usersRouter = require('express').Router()
 const usersModel = require('../models/users')
 
-
-/**
- * @swagger
- * /api/users:
- *   post:
- *     summary: Crear un nuevo usuario
- *     description: Agrega un usuario a la base de datos con un hash de contraseña.
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             required:
- *               - username
- *               - name
- *               - passwordHash
- *               - email
- *               - role
- *             properties:
- *               username:
- *                 type: string
- *                 example: johndoe
- *               name:
- *                 type: string
- *                 example: John Doe
- *               passwordHash:
- *                 type: string
- *                 example: mysecretpassword
- *               email:
- *                 type: string
- *                 format: email
- *                 example: johndoe@example.com
- *               role:
- *                 type: string
- *                 example: user
- *     responses:
- *       201:
- *         description: Usuario creado exitosamente
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 id:
- *                   type: integer
- *                   example: 1
- *                 username:
- *                   type: string
- *                   example: johndoe
- *                 name:
- *                   type: string
- *                   example: John Doe
- *                 email:
- *                   type: string
- *                   example: johndoe@example.com
- *                 role:
- *                   type: string
- *                   example: user
- */
-
-
 usersRouter.post('/', async (request, response) => {
     const { name, username, passwordHash, email, role } = request.body
 
@@ -73,9 +11,46 @@ usersRouter.post('/', async (request, response) => {
     const user = {
         username: username, name: name, passwordHash: passwordHash2, email: email, role: role
     }
-
     const savedUser = await usersModel.createUser(user)
-    response.status(201).json(savedUser)
+    response.status(201).json(savedUser);
 })
+
+
+usersRouter.get('/', async (request, response) => {
+    const users = await usersModel.getAllUsers();
+    response.json(users);
+});
+
+
+
+usersRouter.get('/:id', async (request, response) => {
+    const user = await usersModel.getUserById(request.params.id);
+
+    if (!user) {
+        return response.status(404).json({ error: "User not found" });
+    }
+
+    response.json(user);
+});
+
+
+usersRouter.put('/:id', async (request, response) => {
+    const { name, username, password, email, role } = request.body;
+    const updatedUser = { name, username, email, role };
+
+    if (password) {
+        updatedUser.passwordHash = await bcrypt.hash(password, 10);
+    }
+
+    const result = await usersModel.updateUser(request.params.id, updatedUser);
+    response.json(result);
+});
+
+
+usersRouter.delete('/:id', async (request, response) => {
+    await usersModel.deleteUserById(request.params.id);
+    response.status(204).end();
+});
+
 
 module.exports = usersRouter

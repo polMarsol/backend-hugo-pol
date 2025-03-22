@@ -62,7 +62,7 @@ Content-Type: application/json
 
 ####
 
-POST http://localhost:3001/api/notes
+POST http://localhost:3001/api/noteszz
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InVzZXIxIiwiaWQiOjEsImlhdCI6MTc0MDc0MTgyOX0.yR3nf2ce9aLcEc-84MLJNVK-4k-Zt7bHC1jcVbfYV9o
 Content-Type: application/json
 

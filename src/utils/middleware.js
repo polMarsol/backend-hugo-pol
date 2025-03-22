@@ -27,6 +27,23 @@ const errorHandlerUser = (error, request, response, next) => {
     next(error)
 }
 
+const authenticateToken = (request, response, next) => {
+    const authHeader = request.get("authorization");
+    const token = authHeader && authHeader.startsWith("Bearer ") ? authHeader.replace("Bearer ", "") : null;
+
+    if (!token) {
+        return response.status(401).json({ error: "Token missing" });
+    }
+
+    jwt.verify(token, process.env.JWT_SECRET, (err, decodedToken) => {
+        if (err) {
+            return response.status(401).json({ error: "Token invalid" });
+        }
+        request.user = decodedToken;
+        next();
+    });
+};
 
 
-module.exports = { requestLogger, unknownEndpoint, errorHandlerUser }
+
+module.exports = { requestLogger, unknownEndpoint, errorHandlerUser, authenticateToken }
