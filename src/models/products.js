@@ -1,13 +1,13 @@
 const db = require("../utils/db");
-const productDescriptionsModel = require("./productDescription"); // Importamos el modelo de productDescriptions
-
+const productImagesModel = require("./productImages"); // Importamos el modelo de imágenes
+ 
 // Crear un producto
 const createProduct = (product) => {
     return new Promise((resolve, reject) => {
-        const { name, shopId, productDescriptionId } = product;
-        const sql = "INSERT INTO products (name, shopId, productDescriptionId) VALUES (?, ?, ?)";
-
-        db.run(sql, [name, shopId, productDescriptionId], function (err) {
+        const { name, shopId, description, price, size } = product;
+        const sql = "INSERT INTO products (name, shopId, description, price, size) VALUES (?, ?, ?, ?, ?)";
+ 
+        db.run(sql, [name, shopId, description, price, size], function (err) {
             if (err) {
                 reject(err);
             } else {
@@ -15,37 +15,39 @@ const createProduct = (product) => {
                     id: this.lastID,
                     name,
                     shopId,
-                    productDescriptionId,
+                    description,
+                    price,
+                    size
                 });
             }
         });
     });
 };
-
-// Obtener todos los productos
+ 
+// Obtener todos los productos con imágenes
 const getAllProducts = () => {
     return new Promise((resolve, reject) => {
         db.all("SELECT * FROM products", [], async (err, rows) => {
             if (err) {
                 reject(err);
             } else {
-                // Agregamos las descripciones de los productos a cada producto
-                const productsWithDescriptions = await Promise.all(
+                // Agregamos las imágenes a cada producto
+                const productsWithImages = await Promise.all(
                     rows.map(async (product) => {
-                        const description = await productDescriptionsModel.getProductDescriptionById(product.productDescriptionId);
+                        const images = await productImagesModel.getProductImagesByProductId(product.id);
                         return {
                             ...product,
-                            description,
+                            images,
                         };
                     })
                 );
-                resolve(productsWithDescriptions);
+                resolve(productsWithImages);
             }
         });
     });
 };
-
-// Obtener un producto por ID
+ 
+// Obtener un producto por su ID con imágenes
 const getProductById = (id) => {
     return new Promise((resolve, reject) => {
         const sql = "SELECT * FROM products WHERE id = ?";
@@ -56,26 +58,26 @@ const getProductById = (id) => {
                 resolve(null);
             } else {
                 try {
-                    const description = await productDescriptionsModel.getProductDescriptionById(row.productDescriptionId);
+                    const images = await productImagesModel.getProductImagesByProductId(row.id);
                     resolve({
                         ...row,
-                        description,
+                        images,
                     });
-                } catch (descriptionError) {
-                    reject(descriptionError); // Si ocurre un error al obtener la descripción, lo rechazamos
+                } catch (imageError) {
+                    reject(imageError);
                 }
             }
         });
     });
 };
-
+ 
 // Actualizar un producto
 const updateProduct = (id, product) => {
     return new Promise((resolve, reject) => {
-        const { name, shopId, productDescriptionId } = product;
-        const sql = "UPDATE products SET name = ?, shopId = ?, productDescriptionId = ? WHERE id = ?";
-
-        db.run(sql, [name, shopId, productDescriptionId, id], function (err) {
+        const { name, shopId, description, price, size } = product;
+        const sql = "UPDATE products SET name = ?, shopId = ?, description = ?, price = ?, size = ? WHERE id = ?";
+ 
+        db.run(sql, [name, shopId, description, price, size, id], function (err) {
             if (err) {
                 reject(err);
             } else {
@@ -83,13 +85,15 @@ const updateProduct = (id, product) => {
                     id,
                     name,
                     shopId,
-                    productDescriptionId,
+                    description,
+                    price,
+                    size
                 });
             }
         });
     });
 };
-
+ 
 // Eliminar un producto por ID
 const deleteProductById = (id) => {
     return new Promise((resolve, reject) => {
@@ -98,12 +102,12 @@ const deleteProductById = (id) => {
             if (err) {
                 reject(err);
             } else if (this.changes === 0) {
-                reject(new Error('Product not found'));
+                reject(new Error("Product not found"));
             } else {
                 resolve();
             }
         });
     });
 };
-
+ 
 module.exports = { createProduct, getAllProducts, getProductById, updateProduct, deleteProductById };

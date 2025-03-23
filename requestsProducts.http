@@ -1,0 +1,85 @@
+// PRODUCTS
+
+# Crear un producto con datos válidos
+POST http://localhost:3001/api/products
+Content-Type: application/json
+
+{
+  "name": "Camiseta Deportiva",
+  "shopId": 1,
+  "description": "Camiseta deportiva de alta calidad",
+  "price": 25.99,
+  "size": "M"
+}
+
+###
+
+# Obtener todos los productos
+GET http://localhost:3001/api/products
+
+###
+
+# Obtener un producto por su ID con imágenes
+GET http://localhost:3001/api/products/1
+
+###
+
+# Actualizar un producto
+PUT http://localhost:3001/api/products/1
+Content-Type: application/json
+
+{
+  "name": "Camiseta Deportiva (Nuevo Diseño)",
+  "shopId": 1,
+  "description": "Camiseta deportiva de alta calidad, nuevo diseño",
+  "price": 29.99,
+  "size": "M"
+}
+
+###
+
+# Eliminar un producto por ID
+DELETE http://localhost:3001/api/products/1
+###
+
+# Crear un producto con datos inválidos (debe fallar)
+POST http://localhost:3001/api/products
+Content-Type: application/json
+
+{
+  "name": "Pantalón Deportivo"
+}
+
+###
+
+# Obtener un producto inexistente (debe fallar)
+GET http://localhost:3001/api/products/9999
+
+###
+
+# Eliminar un producto inexistente (debe fallar)
+DELETE http://localhost:3001/api/products/9999
+
+###
+
+// PRODUCT IMAGES
+
+# Agregar una imagen a un producto
+POST http://localhost:3001/api/products/1/images
+Content-Type: application/json
+
+{
+  "imageUrl": "http://example.com/images/camiseta.jpg"
+}
+
+###
+
+# Obtener todas las imágenes de un producto
+GET http://localhost:3001/api/products/1/images
+
+###
+
+# Eliminar todas las imágenes de un producto
+DELETE http://localhost:3001/api/products/1/images
+
+###

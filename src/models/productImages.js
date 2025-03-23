@@ -1,11 +1,11 @@
 const db = require("../utils/db");
-
-// Agregar una imagen de producto
+ 
+// Agregar una imagen a un producto
 const addProductImage = (image) => {
     return new Promise((resolve, reject) => {
         const { productId, imageUrl } = image;
         const sql = "INSERT INTO product_images (productId, image) VALUES (?, ?)";
-
+ 
         db.run(sql, [productId, imageUrl], function (err) {
             if (err) {
                 reject(err);
@@ -19,8 +19,8 @@ const addProductImage = (image) => {
         });
     });
 };
-
-// Obtener todas las imágenes de un producto por ID de producto
+ 
+// Obtener todas las imágenes de un producto
 const getProductImagesByProductId = (productId) => {
     return new Promise((resolve, reject) => {
         const sql = "SELECT * FROM product_images WHERE productId = ?";
@@ -33,21 +33,19 @@ const getProductImagesByProductId = (productId) => {
         });
     });
 };
-
-// Eliminar una imagen de producto por ID
-const deleteProductImageById = (id) => {
+ 
+// Eliminar todas las imágenes de un producto por ID de producto
+const deleteProductImagesByProductId = (productId) => {
     return new Promise((resolve, reject) => {
-        const sql = "DELETE FROM product_images WHERE id = ?";
-        db.run(sql, [id], function (err) {
+        const sql = "DELETE FROM product_images WHERE productId = ?";
+        db.run(sql, [productId], function (err) {
             if (err) {
                 reject(err);
-            } else if (this.changes === 0) {
-                reject(new Error('Product image not found'));
             } else {
                 resolve();
             }
         });
     });
 };
-
-module.exports = { addProductImage, getProductImagesByProductId, deleteProductImageById };
+ 
+module.exports = { addProductImage, getProductImagesByProductId, deleteProductImagesByProductId };

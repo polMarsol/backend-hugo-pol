@@ -27,6 +27,17 @@ const errorHandlerUser = (error, request, response, next) => {
     next(error)
 }
 
+const errorHandlerProduct = (error, request, response, next) => {
+    if (error.code == "SQLITE_CONSTRAINT"
+    && error.message.includes("NOT NULL constraint failed: products.shopId"))
+    {
+    response.status(400).json({ error: "Datos de entrada inválidos" })
+    } else {
+    response.status(500).json({ error: error.message })
+    }
+    next(error)
+}
+
 const authenticateToken = (request, response, next) => {
     const authHeader = request.get("authorization");
     const token = authHeader && authHeader.startsWith("Bearer ") ? authHeader.replace("Bearer ", "") : null;
@@ -46,4 +57,4 @@ const authenticateToken = (request, response, next) => {
 
 
 
-module.exports = { requestLogger, unknownEndpoint, errorHandlerUser, authenticateToken }
+module.exports = { requestLogger, unknownEndpoint, errorHandlerUser, errorHandlerProduct, authenticateToken }
