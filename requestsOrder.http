@@ -1,0 +1,49 @@
+# Crear un pedido
+POST http://localhost:3001/api/order
+Content-Type: application/json
+
+{
+  "shopperId": 1,
+  "shopId": 2,
+  "address": "123 Main St",
+  "status": "pending",
+  "totalPrice": 100.50
+}
+
+###
+
+# Obtener todos los pedidos
+GET http://localhost:3001/api/order
+
+###
+
+# Obtener un pedido por ID
+GET http://localhost:3001/api/order/2
+
+###
+
+# Actualizar un pedido
+PUT http://localhost:3001/api/order/2
+Content-Type: application/json
+
+{
+  "address": "456 New Address",
+  "status": "shipped"
+}
+
+###
+
+# Eliminar un pedido
+DELETE http://localhost:3001/api/order/2
+
+###
+
+# Obtener un pedido inexistente (debe fallar)
+GET http://localhost:3001/api/order/99999
+
+###
+
+# Intentar eliminar un pedido inexistente (debe fallar)
+DELETE http://localhost:3001/api/order/99999
+
+

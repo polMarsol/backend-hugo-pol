@@ -47,4 +47,19 @@ const removeCategoryFromShop = (shopId, categoryType) => {
     });
 };
 
-module.exports = { addCategoryToShop, getCategoriesByShopId, removeCategoryFromShop };
+// shopCategoriesModel.js
+const deleteCategoriesByShopId = (shopId) => {
+    return new Promise((resolve, reject) => {
+      const sql = "DELETE FROM shop_categories WHERE shopId = ?";
+      db.run(sql, [shopId], function (err) {
+        if (err) {
+          reject(err);
+        } else {
+          resolve(this.changes);  // Devuelve el número de filas eliminadas
+        }
+      });
+    });
+  };
+  
+
+module.exports = { addCategoryToShop, getCategoriesByShopId, removeCategoryFromShop, deleteCategoriesByShopId };

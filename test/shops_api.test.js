@@ -49,7 +49,6 @@ describe('when there are initial shops in the database', () => {
   test('fetching all shops returns correct data', async () => {
     const shopsAtStart = await shopsModel.getAllShops();
   
-    // Filtrar las propiedades de las tiendas sin categorías
     const filteredShopsAtStart = shopsAtStart.map(shop => ({
       id: shop.id,
       name: shop.name,
@@ -61,14 +60,12 @@ describe('when there are initial shops in the database', () => {
       .expect(200)
       .expect('Content-Type', /application\/json/);
   
-    // Filtrar las categorías en la respuesta de la API
     const filteredResult = result.body.map(shop => ({
       id: shop.id,
       name: shop.name,
       description: shop.description,
     }));
   
-    // Comparar las respuestas filtradas
     assert.strictEqual(filteredResult.length, filteredShopsAtStart.length);
     assert.deepStrictEqual(filteredResult, filteredShopsAtStart);
   });
@@ -76,7 +73,7 @@ describe('when there are initial shops in the database', () => {
 
   test('fetching a shop by ID succeeds and includes categories', async () => {
     const shopsAtStart = await shopsModel.getAllShops();
-    const shopToRetrieve = shopsAtStart[0]; // Suponiendo que la tienda con id 1 es "Tienda de María"
+    const shopToRetrieve = shopsAtStart[0];
 
     const result = await api
       .get(`/api/shops/${shopToRetrieve.id}`)
@@ -107,10 +104,10 @@ describe('when there are initial shops in the database', () => {
   });
 
   test('deleting a category from a shop succeeds', async () => {
-    const shopId = 2; // "Tienda de María"
+    const shopId = 2; // "ElectroCarlos"
     const categoryType = 'Electrónica';
 
-    const result = await api
+    await api
       .delete(`/api/shops/${shopId}/categories/${categoryType}`)
       .expect(204);
 
@@ -141,19 +138,20 @@ describe('when there are initial shops in the database', () => {
   
     assert.strictEqual(result.body.error, 'Tienda no encontrada');
   });
-  
 
   test('deleting a shop returns 204 and the shop is no longer available', async () => {
     const shopIdToDelete = 2;  // Asegúrate de que este ID corresponda a una tienda existente
   
-    // Realiza la eliminación de la tienda
     await api
       .delete(`/api/shops/${shopIdToDelete}`)
       .expect(204);  // Esperamos 204 No Content
   
-    assert.strictEqual(result.body.error, 'Tienda no encontrada');  // La respuesta debe ser un error indicando que no se encontró la tienda
+    const result = await api
+      .get(`/api/shops/${shopIdToDelete}`)
+      .expect(404); // Ahora la tienda debería estar eliminada
+
+    assert.strictEqual(result.body.error, 'Tienda no encontrada');
   });
-  
 
   test('deleting a non-existing shop returns 404', async () => {
     const nonExistentShopId = 9999;

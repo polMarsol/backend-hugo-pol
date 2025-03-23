@@ -1,5 +1,5 @@
 const db = require("../utils/db");
-const productDescriptionsModel = require("./productDescriptions"); // Importamos el modelo de productDescriptions
+const productDescriptionsModel = require("./productDescription"); // Importamos el modelo de productDescriptions
 
 // Crear un producto
 const createProduct = (product) => {
