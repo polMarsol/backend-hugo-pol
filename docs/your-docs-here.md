@@ -1,92 +1,41 @@
-# Project documentation
+# REST API Design
 
-Place your documentation in this folder.
+En aquest apartat es mostren algunes de les decisions preses en la implementació dels mètodes, entrypoints i requests realitzades.
 
-It can be in `pdf` or `markdown` format.
+## 1️⃣ Mètodes
 
+La lògica que hem seguit per la creació de mètodes ha estat CRUD.
 
-```mermaid
-%%{init: {'theme':'neutral'}}%%
-classDiagram
-    direction TB
-    
-    class User {
-        +name: String
-        +username: String
-        +password: String
-        +email: String
-        +role: String
-        +signIn(username, password): User
-        +signOut(): Boolean
-        +updateData(currentPassword, newName, newEmail, newPassword): Boolean
+Com es pot observar en les 4 entitats grans de l'aplicació (users, shops, orders i products) tenim mètodes que corresponen a les funcions de Create, Read, Update i Delete.
 
-    }
-    
-    class Admin {
-        +createSalesperson(name, username, email, password, role): User
-        +createAdmin(name, username, email, password, role): User
-        +createShop(ownerId, shopName, description, categories): Shop
-        +deleteShop(shopId): Boolean
+D'altra banda, en les 3 entitats auxiliars que hem creat hem buscat implementar els mètodes que ens permetessin fer les consultes que potseriorment realitzariem.
 
-    }
-    
-    class Salesperson {
-        +listShops(): List<Shop>
-        +listProducts(shopId): List<Product>
-        +createProduct(shopId, name, description, price, size, images): Product
-        +updateProduct(productId, newName, newDescription, newPrice, newSize, newImages): Boolean
-        +deleteProduct(productId): Boolean
-        +listOrders(shopId): List<Order>
-        +updateOrderStatus(orderId, newStatus): Boolean
-        +updateShop(shopId, newName, newDescription, newCategories): Boolean
-    }
-    
-    class Shopper {
-        +signUp(name, username, email, password): Boolean
-        +browseShops(): List<Shop>
-        +browseProducts(shopId): List<Product>
-        +placeOrder(shopId, productList, address): Order
-        +listOrders(): List<Order>
-        +addAddress(street, city, zipCode, country): Boolean
-        +removeAddress(addressId): Boolean
-        +listAddresses(): List<Address>
-    }
+Tota aquesta lògica de treball es troba en la carpeta models.
 
-    class Address {
-        +street: String
-        +city: String
-        +zipCode: String
-        +country: String
-    }
-
-    class Shop {
-        +name: String
-        +description: String
-        +categories: List<String>
-    }
-
-    class Product {
-        +name: String
-        +description: String
-        +images: List<String>
-        +price: Float
-        +size: String
-    }
-
-    class Order {
-        +address: String
-        +status: String
-        +updateStatus(String): Boolean
-        +cancelOrder(): Boolean
-    }
-
-    class Review {
-    +rating: Int
-    +comment: String
-    +date: Date
-}
-
-    
+També comentar que tenim un fitxer index.js que correspon a la creació de la base de dades i fa una inserció de dades incials.
 
 
+## 2️⃣ Entrypoints
+La lògica dels nostres entrypoints amb les consultes (Get, Post, Put, Delete) ve en base a les funcions implementades anteriorment en les entitats de la classe models.
 
+Com es pot observar tornem a seguir una estrcutura CRUD i ens els diferents arxius de la classe controllers trobem peticions que fan referencia a aquestes.
+
+## 3️⃣ Requests
+
+Seguint amb la dinàmica anterior hem estructurat les nostres requests de manera que cadascuna representi una de les entitats principals de l'aplicació.
+
+En aquests arxius acabats amb extensió http podem probar les consultes implementades anteriorment en els controllers i obtenir la resposta que ens dona la API en base a aquesta consulta.
+
+## 4️⃣ 🔹 Test
+
+Com a verificació de la feina feta podem trobar la carpeta test on novament està estructurada en 4 arxius corresponent a les entitats més importants.
+
+En aquests arxius podem trobar com, en un ambient de test, configurat en el nostre arxiu .env es realitzen diverses proves.
+
+A nivell de testing hauriem de tenir en compte el coverage d'aquest (és a dir les /ines de codi que s'executen en cada test) i mirar d'obtenir un 70/80%.
+
+**Coneixement obtinguts en una assignatura que realitzo a Madrid (Hugo)
+
+En aquest cas no tenim, de moment, eines per evaluar aquest aspecte així que hem realitzar varis testos els quals en entregues posteriors serán ampliats per augmentar la fiabilitat dels mètodes realitzats.
+
+Volem posar enfàsi però en que tots les consultes proporcionades en els arxius .http responen al comportament desitjat de manera fiable.
