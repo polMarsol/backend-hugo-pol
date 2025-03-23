@@ -1,7 +1,23 @@
 // PRODUCTS
 
-# Crear un producto con datos válidos
+# Crear un producto con datos válidos role salesperson
 POST http://localhost:3001/api/products
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Im1hcmlhZyIsImlkIjoyLCJyb2xlIjoic2FsZXNwZXJzb24iLCJpYXQiOjE3NDI3NjkwMDIsImV4cCI6MTc0Mjc3MjYwMn0.fGLYUrUykqQ4j4aRU5ot-YJj2U6YSy-7vyjcKLacPd8
+Content-Type: application/json
+
+{
+  "name": "Camiseta Deportiva",
+  "shopId": 1,
+  "description": "Camiseta deportiva de alta calidad",
+  "price": 25.99,
+  "size": "M"
+}
+
+###
+
+# Crear un producto con datos válidos role admin
+POST http://localhost:3001/api/products
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwiaWQiOjMsInJvbGUiOiJhZG1pbiIsImlhdCI6MTc0Mjc2ODQ0OSwiZXhwIjoxNzQyNzcyMDQ5fQ.9axKXgAGayC7oYYGOfBUfthLklK8eHFuudZvuw_y8Yo
 Content-Type: application/json
 
 {

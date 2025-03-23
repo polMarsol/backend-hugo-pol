@@ -1,9 +1,10 @@
 const express = require('express');
 const orderModel = require('../models/orders');
 const ordersRouter = express.Router();
+const { verifyToken, verifyRole } = require('../utils/middleware');
 
 // Crear un pedido
-ordersRouter.post('/', async (req, res) => {
+ordersRouter.post('/', verifyToken, verifyRole(['shopper']) ,async (req, res) => {
   const { shopperId, shopId, address, status, totalPrice } = req.body;
 
   if (!shopperId || !shopId || !address || !status || !totalPrice) {
@@ -44,7 +45,7 @@ ordersRouter.get('/:id', async (req, res) => {
 });
 
 // Actualizar un pedido
-ordersRouter.put('/:id', async (req, res) => {
+ordersRouter.put('/:id', verifyToken, verifyRole(['shopper']) ,async (req, res) => {
   const { id } = req.params;
   const { address, status } = req.body;
 

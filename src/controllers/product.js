@@ -2,9 +2,10 @@ const express = require("express");
 const router = express.Router();
 const productModel = require("../models/products");
 const productImagesModel = require("../models/productImages");
+const { verifyToken, verifyRole } = require('../utils/middleware');
 
 // Crear un producto
-router.post("/", async (req, res) => {
+router.post("/",verifyToken, verifyRole(['salesperson']),async (req, res) => {
     console.log("Reached POST /products");  // Agrega esto para depurar
     try {
         const newProduct = await productModel.createProduct(req.body);
@@ -38,7 +39,7 @@ router.get("/:id", async (req, res) => {
 });
 
 // Actualizar un producto
-router.put("/:id", async (req, res) => {
+router.put("/:id", verifyToken, verifyRole(['salesperson']) ,async (req, res) => {
     try {
         const updatedProduct = await productModel.updateProduct(req.params.id, req.body);
         res.status(200).json(updatedProduct);
@@ -48,7 +49,7 @@ router.put("/:id", async (req, res) => {
 });
 
 // Eliminar un producto por ID
-router.delete("/:id", async (req, res) => {
+router.delete("/:id", verifyToken, verifyRole(['salesperson']) ,async (req, res) => {
     try {
         await productImagesModel.deleteProductImagesByProductId(req.params.id);
         await productModel.deleteProductById(req.params.id);

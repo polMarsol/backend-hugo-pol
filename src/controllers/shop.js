@@ -1,12 +1,12 @@
 const express = require('express');
-const { shopsModel, shopCategoriesModel } = require('../models');
-const { checkAdmin } = require('../utils/middleware');
+const { shopsModel, shopCategoriesModel, usersModel } = require('../models');
+const { verifyToken, verifyRole } = require('../utils/middleware');
 
 
 const shopsRouter = express.Router();
 
 // Crear una tienda
-shopsRouter.post('/', checkAdmin, async (req, res) => { // Añadimos el middleware checkAdmin aquí
+shopsRouter.post('/', verifyToken, verifyRole(['admin']), async (req, res) => {
   const { ownerId, name, description } = req.body;
 
   if (!ownerId || !name) {
@@ -34,7 +34,7 @@ shopsRouter.post('/', checkAdmin, async (req, res) => { // Añadimos el middlewa
 });
 
 // Obtener todas las tiendas
-shopsRouter.get('/', async (req, res) => {
+shopsRouter.get('/', verifyToken, verifyRole(['salesperson']), async (req, res) => {
   try {
     const shops = await shopsModel.getAllShops();
     res.json(shops);

@@ -64,15 +64,12 @@ const checkAdmin = (req, res, next) => {
     const token = authHeader.split(" ")[1];
 
     try {
-        // Verificamos el token JWT
         const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
 
-        // Verificamos que el usuario sea admin
         if (decodedToken.role !== "admin") {
             return res.status(403).json({ error: "Permisos insuficientes. Solo los administradores pueden crear tiendas." });
         }
 
-        // Si es admin, dejamos pasar al siguiente middleware/controlador
         next();
     } catch (error) {
         return res.status(401).json({ error: "Token inválido" });
@@ -80,7 +77,40 @@ const checkAdmin = (req, res, next) => {
 };
 
 
+const verifyToken = (req, res, next) => {
+    const authorization = req.get('Authorization');
+    let token = null;
+
+    if (authorization && authorization.toLowerCase().startsWith('bearer ')) {
+        token = authorization.substring(7);
+    }
+
+    try {
+        const decodedToken = jwt.verify(token, process.env.SECRET);
+
+        if (!token || !decodedToken.id) {
+            return res.status(401).json({ error: 'token missing or invalid' });
+        }
+
+        req.user = decodedToken;
+        next();
+    } catch (error) {
+        return res.status(401).json({ error: 'invalid token' });
+    }
+};
+
+
+const verifyRole = (roles) => {
+    return (req, res, next) => {
+        if (!roles.includes(req.user.role)) {
+            return res.status(403).json({ error: 'Access denied' });
+        }
+        next();
+    };
+};
 
 
 
-module.exports = { requestLogger, unknownEndpoint, errorHandlerUser, errorHandlerProduct, authenticateToken, checkAdmin }
+
+
+module.exports = { requestLogger, unknownEndpoint, errorHandlerUser, errorHandlerProduct, authenticateToken, checkAdmin, verifyToken, verifyRole }

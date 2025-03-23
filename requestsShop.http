@@ -1,5 +1,5 @@
 //SHOPS
-# Crear una tienda con datos válidos
+# Crear una tienda con datos válidos (invalid token)
 POST http://localhost:3001/api/shops
 Content-Type: application/json
 
@@ -11,23 +11,55 @@ Content-Type: application/json
 
 ###
 
-# Create 
+# Create admin with a role salesperson 
 POST http://localhost:3001/api/shops
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwiaWQiOjMsImlhdCI6MTc0Mjc2MDU4M30.XhXfX1Xvk_VPrCZvKvQohieEann_nuLm0WK4gekKiRw
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwiaWQiOjMsInJvbGUiOiJhZG1pbiIsImlhdCI6MTc0Mjc2ODQ0OSwiZXhwIjoxNzQyNzcyMDQ5fQ.9axKXgAGayC7oYYGOfBUfthLklK8eHFuudZvuw_y8Yo
 Content-Type: application/json
 
 {
   "ownerId": 2,
   "name": "Tienda de ropa",
-  "description": "Ropa de moda",
+  "description": "Ropa de moda"
 }
 
 ###
 
-# Obtener todas las tiendas
-GET http://localhost:3001/api/shops
+# Create admin without a role salesperson (error)
+POST http://localhost:3001/api/shops
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwiaWQiOjMsInJvbGUiOiJhZG1pbiIsImlhdCI6MTc0Mjc2ODQ0OSwiZXhwIjoxNzQyNzcyMDQ5fQ.9axKXgAGayC7oYYGOfBUfthLklK8eHFuudZvuw_y8Yo
+Content-Type: application/json
+
+{
+  "ownerId": 1,
+  "name": "Tienda de ropa",
+  "description": "Ropa de moda"
+}
 
 ###
+
+# Create salesperson role (invalid credentials)
+POST http://localhost:3001/api/shops
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Im1hcmlhZyIsImlkIjoyLCJyb2xlIjoic2FsZXNwZXJzb24iLCJpYXQiOjE3NDI3NjkwMDIsImV4cCI6MTc0Mjc3MjYwMn0.fGLYUrUykqQ4j4aRU5ot-YJj2U6YSy-7vyjcKLacPd8
+Content-Type: application/json
+
+{
+  "ownerId": 1,
+  "name": "Tienda de ropa",
+  "description": "Ropa de moda"
+}
+
+###
+
+# Obtener todas las tiendas with role admin (error)
+GET http://localhost:3001/api/shops
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwiaWQiOjMsInJvbGUiOiJhZG1pbiIsImlhdCI6MTc0Mjc2ODQ0OSwiZXhwIjoxNzQyNzcyMDQ5fQ.9axKXgAGayC7oYYGOfBUfthLklK8eHFuudZvuw_y8Yo
+
+###
+
+# Obtener todas las tiendas with role salesperson
+GET http://localhost:3001/api/shops
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Im1hcmlhZyIsImlkIjoyLCJyb2xlIjoic2FsZXNwZXJzb24iLCJpYXQiOjE3NDI3NjkwMDIsImV4cCI6MTc0Mjc3MjYwMn0.fGLYUrUykqQ4j4aRU5ot-YJj2U6YSy-7vyjcKLacPd8
+
 
 # Obtener una tienda por su ID (con categorías)
 GET http://localhost:3001/api/shops/1

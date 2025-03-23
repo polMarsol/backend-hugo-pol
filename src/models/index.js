@@ -82,7 +82,7 @@ const initDb = () => {
         
         db.run(`INSERT INTO users (name, username, passwordHash, email, role) VALUES
             ('Juan Pérez', 'juanp', 'hashedpassword1', 'juan@example.com', 'shopper'),
-            ('María García', 'mariag', 'hashedpassword2', 'maria@example.com', 'salesperson'),
+            ('María García', 'mariag', '$2b$10$ciczczK3smszgHB.cXUpfed8k.rHwZ5uPtOXPbml4J7AcT49CPioS', 'maria@example.com', 'salesperson'),
             ('Carlos López', 'admin', '$2b$10$ciczczK3smszgHB.cXUpfed8k.rHwZ5uPtOXPbml4J7AcT49CPioS', 'carlos@example.com', 'admin')
         `); // password: hashedpassword3
  
