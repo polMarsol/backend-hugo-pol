@@ -79,4 +79,17 @@ const deleteOrderById = (id) => {
     });
 };
 
-module.exports = { createOrder, getAllOrders, getOrderById, updateOrder, deleteOrderById };
+const deleteOrderProductsByOrderId = async (orderId) => {
+    return new Promise((resolve, reject) => {
+      const query = 'DELETE FROM order_list_products WHERE orderId = ?';
+      db.run(query, [orderId], function (err) {
+        if (err) {
+          reject(err);
+        } else {
+          resolve(this.changes);  // Número de filas eliminadas
+        }
+      });
+    });
+};
+  
+module.exports = { createOrder, getAllOrders, getOrderById, updateOrder, deleteOrderById, deleteOrderProductsByOrderId};

@@ -76,71 +76,24 @@ Content-Type: application/json
 # Intentar eliminar usuario inexistente (debe fallar)
 DELETE http://localhost:3001/api/users/99999
 
+
 ###
 
-//SHOPS
-# Crear una tienda con datos válidos
-POST http://localhost:3001/api/shops
+# Login
+POST http://localhost:3001/api/login
 Content-Type: application/json
 
 {
-  "ownerId": 4,
-  "name": "Tienda de Deportes",
-  "description": "Ropa y accesorios deportivos"
+  "username": "admin",
+  "password": "hashedpassword3"
 }
 
 ###
 
-# Obtener todas las tiendas
-GET http://localhost:3001/api/shops
-
-###
-
-# Obtener una tienda por su ID (con categorías)
-GET http://localhost:3001/api/shops/1
-
-###
-
-# Añadir una categoría a una tienda
-POST http://localhost:3001/api/shops/2/categories
+POST http://localhost:3001/api/login
 Content-Type: application/json
 
 {
-  "categoryType": "Audio"
+  "username": "mariag",
+  "password": "hashedpassword3"
 }
-
-###
-
-# Obtener las categorías de una tienda
-GET http://localhost:3001/api/shops/2/categories
-
-###
-
-# Eliminar una categoría de una tienda
-DELETE http://localhost:3001/api/shops/2/categories/Audio
-
-###
-
-# Crear una tienda con datos inválidos (debe fallar)
-POST http://localhost:3001/api/shops
-Content-Type: application/json
-
-{
-  "name": "Tienda de Zapatos"
-}
-
-###
-
-# Obtener una tienda inexistente (debe fallar)
-GET http://localhost:3001/api/shops/9999
-
-###
-
-# Eliminar una tienda
-DELETE http://localhost:3001/api/shops/2
-
-###
-
-# Eliminar una tienda inexistente (debe fallar)
-DELETE http://localhost:3001/api/shops/9999
-

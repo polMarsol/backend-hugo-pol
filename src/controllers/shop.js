@@ -1,20 +1,31 @@
 const express = require('express');
-//const shopsModel = require('../models/shopsModel');
-//const shopCategoriesModel = require('../models/shopCategoriesModel');
-const { shopsModel, shopCategoriesModel } = require('../models');
+const { shopsModel, shopCategoriesModel, usersModel } = require('../models');
+const { verifyToken, verifyRole } = require('../utils/middleware');
 
 
 const shopsRouter = express.Router();
 
 // Crear una tienda
-shopsRouter.post('/', async (req, res) => {
+shopsRouter.post('/', verifyToken, verifyRole(['admin']), async (req, res) => {
   const { ownerId, name, description } = req.body;
 
   if (!ownerId || !name) {
-    return res.status(400).json({ error: 'El dueño y el nombre de la tienda son obligatorios' });
+    return res.status(400).json({ error: 'El dueño (ownerId) y el nombre de la tienda son obligatorios' });
   }
 
   try {
+    // Verificamos si el ownerId existe y si tiene el rol de salesperson
+    const owner = await usersModel.getUserById(ownerId);
+
+    if (!owner) {
+      return res.status(404).json({ error: 'El usuario dueño (ownerId) no existe' });
+    }
+
+    if (owner.role !== 'salesperson') {
+      return res.status(400).json({ error: 'El usuario dueño no tiene el rol de vendedor (salesperson)' });
+    }
+
+    // Si es un salesperson, crear la tienda
     const newShop = await shopsModel.createShop({ ownerId, name, description });
     res.status(201).json(newShop);
   } catch (error) {
@@ -23,7 +34,7 @@ shopsRouter.post('/', async (req, res) => {
 });
 
 // Obtener todas las tiendas
-shopsRouter.get('/', async (req, res) => {
+shopsRouter.get('/', verifyToken, verifyRole(['salesperson']), async (req, res) => {
   try {
     const shops = await shopsModel.getAllShops();
     res.json(shops);
@@ -64,22 +75,31 @@ shopsRouter.put('/:id', async (req, res) => {
   }
 });
 
-// Eliminar una tienda
+// Eliminar una tienda y sus categorías asociadas
 shopsRouter.delete('/:id', async (req, res) => {
   const { id } = req.params;
 
   try {
+    // Primero, eliminar las categorías asociadas a la tienda
+    const categoriesDeleted = await shopCategoriesModel.deleteCategoriesByShopId(id);
+    if (categoriesDeleted === 0) {
+      console.log('No se encontraron categorías para eliminar.');
+    }
+
+    // Luego, eliminar la tienda
     const shop = await shopsModel.getShopById(id);
     if (!shop) {
       return res.status(404).json({ error: 'Tienda no encontrada' });
     }
 
     await shopsModel.deleteShopById(id);
-    res.status(204).end();
+    res.status(204).end();  // Responder con No Content si todo fue exitoso
   } catch (error) {
-    res.status(500).json({ error: 'Error al eliminar la tienda' });
+    console.error('Error al eliminar tienda:', error);
+    res.status(500).json({ error: 'Error al eliminar la tienda y sus categorías' });
   }
 });
+
 
 // Añadir una categoría a una tienda
 shopsRouter.post('/:id/categories', async (req, res) => {

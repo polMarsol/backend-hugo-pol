@@ -1,11 +1,14 @@
 const express = require("express")
 require("express-async-errors")
 const { initDb } = require("./models")
-const usersRouter = require("./controllers/users")
 const middleware = require("./utils/middleware")
 const swaggerUi = require("swagger-ui-express")
 const swaggerJsdoc = require("swagger-jsdoc")
+const usersRouter = require("./controllers/users")
 const shopsRouter = require("./controllers/shop")
+const ordersRouter = require("./controllers/order")
+const ProductsRouter = require("./controllers/product")
+const loginRouter = require('./controllers/login')
 
 const app = express()
 initDb()
@@ -31,8 +34,14 @@ app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 app.use("/api/users", usersRouter)
 app.use("/api/shops", shopsRouter)
+app.use("/api/order", ordersRouter)
+app.use("/api/products", ProductsRouter)
+app.use('/api/login', loginRouter)
+
 
 app.use(middleware.unknownEndpoint)
 app.use(middleware.errorHandlerUser)
+app.use(middleware.errorHandlerProduct)
+app.use(middleware.checkAdmin)
 
 module.exports = app

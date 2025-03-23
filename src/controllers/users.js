@@ -27,7 +27,7 @@ usersRouter.get('/:id', async (request, response) => {
     const user = await usersModel.getUserById(request.params.id);
 
     if (!user) {
-        return response.status(404).json({ error: "User not found" });
+        return response.status(404).json({ error: "Usuario no encontrado" });
     }
 
     response.json(user);
@@ -40,17 +40,17 @@ usersRouter.put('/:id', async (request, response) => {
     const user = await usersModel.getUserById(request.params.id);
     
     if (!user) {
-        return response.status(400).json({ error: "Invalid credentials" });
+        return response.status(400).json({ error: "Credenciales inválidas" });
     }
 
     if ((email || newPassword) && !passwordActual) {
-        return response.status(400).json({ error: "Invalid credentials" });
+        return response.status(400).json({ error: "Credenciales inválidas" });
     }
 
     if (passwordActual) {
         const passwordCorrect = await bcrypt.compare(passwordActual, user.passwordHash);
         if (!passwordCorrect) {
-            return response.status(400).json({ error: "Invalid credentials" });
+            return response.status(400).json({ error: "Credenciales inválidas" });
         }
     }
 
@@ -61,14 +61,14 @@ usersRouter.put('/:id', async (request, response) => {
     }
 
     await usersModel.updateUser(request.params.id, updatedUser);
-    response.status(200).json({ message: "User updated successfully" });
+    response.status(200).json({ message: "Usuario actualizado correctamente" });
 });
 
 usersRouter.delete('/:id', async (request, response) => {
     const user = await usersModel.getUserById(request.params.id);
 
     if (!user) {
-        return response.status(404).json({ error: "User not found" });
+        return response.status(404).json({ error: "Usuario no encontrado" });
     }
 
     await usersModel.deleteUserById(request.params.id);
