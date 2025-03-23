@@ -5,6 +5,7 @@ const usersRouter = require("./controllers/users")
 const middleware = require("./utils/middleware")
 const swaggerUi = require("swagger-ui-express")
 const swaggerJsdoc = require("swagger-jsdoc")
+const shopsRouter = require("./controllers/shop")
 
 const app = express()
 initDb()
@@ -29,6 +30,7 @@ const swaggerSpec = swaggerJsdoc(swaggerOptions);
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 app.use("/api/users", usersRouter)
+app.use("/api/shops", shopsRouter)
 
 app.use(middleware.unknownEndpoint)
 app.use(middleware.errorHandlerUser)
