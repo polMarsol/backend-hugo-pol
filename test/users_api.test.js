@@ -11,11 +11,9 @@ const api = supertest(app)
 
 describe('when there is initially one user in db', () => {
     beforeEach(async () => {
-        // Clear the users table
         db.serialize(() => {
             db.run('DELETE FROM users')
         })
-        // Create the root user
         const adminUser = {
             name: "admin2",
             username: "admin",
@@ -68,12 +66,12 @@ describe('when there is initially one user in db', () => {
     test('fetching a user by ID succeeds', async () => {
         const usersAtStart = await usersModel.getAllUsers();
         const userToRetrieve = usersAtStart[0];
-    
+
         const result = await api
             .get(`/api/users/${userToRetrieve.id}`)
             .expect(200)
             .expect('Content-Type', /application\/json/);
-    
+
         assert.strictEqual(result.body.id, userToRetrieve.id);
         assert.strictEqual(result.body.username, userToRetrieve.username);
         assert.strictEqual(result.body.email, userToRetrieve.email);
@@ -81,25 +79,25 @@ describe('when there is initially one user in db', () => {
 
     test('updating a user succeeds with valid data', async () => {
         const usersAtStart = await usersModel.getAllUsers();
-        const userToUpdate = usersAtStart[0]; // Tomamos el primer usuario
-    
+        const userToUpdate = usersAtStart[0];
+
         const updatedData = {
             name: "Updated Name",
             username: "updatedUsername",
             email: "updated@example.com",
             role: "admin",
-            passwordActual: "secret", // Contraseña actual del usuario
-            newPassword: "newSecret123" // Nueva contraseña
+            passwordActual: "secret",
+            newPassword: "newSecret123"
         };
-    
+
         const result = await api
             .put(`/api/users/${userToUpdate.id}`)
             .send(updatedData)
             .expect(200)
             .expect('Content-Type', /application\/json/);
-    
+
         assert.strictEqual(result.body.message, "User updated successfully");
-    
+
         const updatedUser = await usersModel.getUserById(userToUpdate.id);
         assert.strictEqual(updatedUser.name, updatedData.name);
         assert.strictEqual(updatedUser.username, updatedData.username);
@@ -108,77 +106,75 @@ describe('when there is initially one user in db', () => {
 
     test('deleting a user succeeds', async () => {
         const usersAtStart = await usersModel.getAllUsers();
-        const userToDelete = usersAtStart[0]; // Tomamos el primer usuario
-    
+        const userToDelete = usersAtStart[0];
+
         await api
             .delete(`/api/users/${userToDelete.id}`)
-            .expect(204); // Código 204 significa que la eliminación fue exitosa sin contenido
-    
+            .expect(204);
+
         const usersAtEnd = await usersModel.getAllUsers();
-        
-        // Verificamos que el usuario ha sido eliminado
+
         assert.strictEqual(usersAtEnd.length, usersAtStart.length - 1);
         assert(!usersAtEnd.some(user => user.id === userToDelete.id));
     });
 
     test('fetching all users returns correct data', async () => {
-        const usersAtStart = await usersModel.getAllUsers(); // Obtener usuarios antes de la petición
-    
+        const usersAtStart = await usersModel.getAllUsers();
+
         const result = await api
             .get('/api/users')
             .expect(200)
             .expect('Content-Type', /application\/json/);
-    
+
         assert.strictEqual(result.body.length, usersAtStart.length);
         assert.deepStrictEqual(result.body, usersAtStart);
     });
 
     test('fetching a non-existing user returns 404', async () => {
-        const nonExistentId = 99999; // Un ID que no existe en la base de datos
-    
+        const nonExistentId = 99999;
+
         const result = await api
             .get(`/api/users/${nonExistentId}`)
             .expect(404)
             .expect('Content-Type', /application\/json/);
-    
+
         assert.strictEqual(result.body.error, "User not found");
     });
-    
+
     test('updating a user fails if current password is incorrect', async () => {
         const usersAtStart = await usersModel.getAllUsers();
         const userToUpdate = usersAtStart[0];
-    
+
         const wrongPasswordData = {
             name: "New Name",
             username: "newUsername",
             email: "new@example.com",
             role: "admin",
-            passwordActual: "wrongPassword", // Contraseña incorrecta
+            passwordActual: "wrongPassword",
             newPassword: "newSecret123"
         };
-    
+
         const result = await api
             .put(`/api/users/${userToUpdate.id}`)
             .send(wrongPasswordData)
             .expect(400)
             .expect('Content-Type', /application\/json/);
-    
+
         assert.strictEqual(result.body.error, "Invalid credentials");
-    
-        // Aseguramos que el usuario sigue con los mismos datos
+
         const userAfterUpdate = await usersModel.getUserById(userToUpdate.id);
         assert.strictEqual(userAfterUpdate.username, userToUpdate.username);
     });
 
     test('deleting a non-existing user returns 404', async () => {
-        const nonExistentId = 99999; // Un ID que no existe en la base de datos
-    
+        const nonExistentId = 99999;
+
         const result = await api
             .delete(`/api/users/${nonExistentId}`)
             .expect(404)
             .expect('Content-Type', /application\/json/);
-    
+
         assert.strictEqual(result.body.error, "User not found");
     });
-    
+
 })

@@ -101,10 +101,8 @@ const deleteProductById = (id) => {
         db.run(sql, [id], function (err) {
             if (err) {
                 reject(err);
-            } else if (this.changes === 0) {
-                reject(new Error("Product not found"));
             } else {
-                resolve();
+                resolve(this.changes);
             }
         });
     });

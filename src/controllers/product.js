@@ -6,7 +6,12 @@ const { verifyToken, verifyRole } = require('../utils/middleware');
 
 // Crear un producto
 router.post("/",verifyToken, verifyRole(['salesperson']),async (req, res) => {
-    console.log("Reached POST /products");  // Agrega esto para depurar
+    const { name, shopId, description, price, size } = req.body;
+ 
+    if (!name || !shopId || !price) {
+        return res.status(400).json({ error: "Faltan campos obligatorios." });
+    }
+    
     try {
         const newProduct = await productModel.createProduct(req.body);
         res.status(201).json(newProduct);
@@ -52,7 +57,11 @@ router.put("/:id", verifyToken, verifyRole(['salesperson']) ,async (req, res) =>
 router.delete("/:id", verifyToken, verifyRole(['salesperson']) ,async (req, res) => {
     try {
         await productImagesModel.deleteProductImagesByProductId(req.params.id);
-        await productModel.deleteProductById(req.params.id);
+        const deletedRows = await productModel.deleteProductById(req.params.id);
+ 
+        if (deletedRows === 0) {
+            return res.status(404).json({ error: "Producto no encontrado" });
+        }
         res.status(200).json({ message: "Producto eliminado correctamente" });
     } catch (err) {
         res.status(500).json({ error: err.message });
