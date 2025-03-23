@@ -1,18 +1,31 @@
 const express = require('express');
 const { shopsModel, shopCategoriesModel } = require('../models');
+const { checkAdmin } = require('../utils/middleware');
 
 
 const shopsRouter = express.Router();
 
 // Crear una tienda
-shopsRouter.post('/', async (req, res) => {
+shopsRouter.post('/', checkAdmin, async (req, res) => { // Añadimos el middleware checkAdmin aquí
   const { ownerId, name, description } = req.body;
 
   if (!ownerId || !name) {
-    return res.status(400).json({ error: 'El dueño y el nombre de la tienda son obligatorios' });
+    return res.status(400).json({ error: 'El dueño (ownerId) y el nombre de la tienda son obligatorios' });
   }
 
   try {
+    // Verificamos si el ownerId existe y si tiene el rol de salesperson
+    const owner = await usersModel.getUserById(ownerId);
+
+    if (!owner) {
+      return res.status(404).json({ error: 'El usuario dueño (ownerId) no existe' });
+    }
+
+    if (owner.role !== 'salesperson') {
+      return res.status(400).json({ error: 'El usuario dueño no tiene el rol de vendedor (salesperson)' });
+    }
+
+    // Si es un salesperson, crear la tienda
     const newShop = await shopsModel.createShop({ ownerId, name, description });
     res.status(201).json(newShop);
   } catch (error) {

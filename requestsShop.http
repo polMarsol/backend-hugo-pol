@@ -11,6 +11,19 @@ Content-Type: application/json
 
 ###
 
+# Create 
+POST http://localhost:3001/api/shops
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwiaWQiOjMsImlhdCI6MTc0Mjc2MDU4M30.XhXfX1Xvk_VPrCZvKvQohieEann_nuLm0WK4gekKiRw
+Content-Type: application/json
+
+{
+  "ownerId": 2,
+  "name": "Tienda de ropa",
+  "description": "Ropa de moda",
+}
+
+###
+
 # Obtener todas las tiendas
 GET http://localhost:3001/api/shops
 

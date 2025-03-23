@@ -75,3 +75,17 @@ Content-Type: application/json
 
 # Intentar eliminar usuario inexistente (debe fallar)
 DELETE http://localhost:3001/api/users/99999
+
+
+###
+
+# Login
+POST http://localhost:3001/api/login
+Content-Type: application/json
+
+{
+  "username": "admin",
+  "password": "hashedpassword3"
+}
+
+###

@@ -14,26 +14,23 @@ const unknownEndpoint = (request, response) => {
 
 const errorHandlerUser = (error, request, response, next) => {
     if (error.code == "SQLITE_CONSTRAINT"
-    && error.message.includes("UNIQUE constraint failed: users.username"))
-    {
-    response.status(400).json({ error: "expected `username` to be unique" })
+        && error.message.includes("UNIQUE constraint failed: users.username")) {
+        response.status(400).json({ error: "expected `username` to be unique" })
     } else if (error.code == "SQLITE_CONSTRAINT"
-    && error.message.includes("UNIQUE constraint failed: users.email"))
-    {
-    response.status(400).json({ error: "expected `email` to be unique" })
+        && error.message.includes("UNIQUE constraint failed: users.email")) {
+        response.status(400).json({ error: "expected `email` to be unique" })
     } else {
-    response.status(500).json({ error: error.message })
+        response.status(500).json({ error: error.message })
     }
     next(error)
 }
 
 const errorHandlerProduct = (error, request, response, next) => {
     if (error.code == "SQLITE_CONSTRAINT"
-    && error.message.includes("NOT NULL constraint failed: products.shopId"))
-    {
-    response.status(400).json({ error: "Datos de entrada inválidos" })
+        && error.message.includes("NOT NULL constraint failed: products.shopId")) {
+        response.status(400).json({ error: "Datos de entrada inválidos" })
     } else {
-    response.status(500).json({ error: error.message })
+        response.status(500).json({ error: error.message })
     }
     next(error)
 }
@@ -55,6 +52,35 @@ const authenticateToken = (request, response, next) => {
     });
 };
 
+const jwt = require("jsonwebtoken");
+
+const checkAdmin = (req, res, next) => {
+    const authHeader = req.headers.authorization;
+
+    if (!authHeader || !authHeader.startsWith("Bearer ")) {
+        return res.status(401).json({ error: "Token no proporcionado o formato inválido" });
+    }
+
+    const token = authHeader.split(" ")[1];
+
+    try {
+        // Verificamos el token JWT
+        const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
+
+        // Verificamos que el usuario sea admin
+        if (decodedToken.role !== "admin") {
+            return res.status(403).json({ error: "Permisos insuficientes. Solo los administradores pueden crear tiendas." });
+        }
+
+        // Si es admin, dejamos pasar al siguiente middleware/controlador
+        next();
+    } catch (error) {
+        return res.status(401).json({ error: "Token inválido" });
+    }
+};
 
 
-module.exports = { requestLogger, unknownEndpoint, errorHandlerUser, errorHandlerProduct, authenticateToken }
+
+
+
+module.exports = { requestLogger, unknownEndpoint, errorHandlerUser, errorHandlerProduct, authenticateToken, checkAdmin }
