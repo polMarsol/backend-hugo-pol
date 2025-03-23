@@ -103,6 +103,28 @@ shopsRouter.post('/:id/categories', async (req, res) => {
   }
 });
 
+// Obtener las categorías de una tienda
+shopsRouter.get('/:id/categories', async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    // Obtener la tienda por su ID
+    const shop = await shopsModel.getShopById(id);
+    if (!shop) {
+      return res.status(404).json({ error: 'Tienda no encontrada' });
+    }
+
+    // Obtener las categorías de la tienda
+    const categories = await shopCategoriesModel.getCategoriesByShopId(id);
+
+    // Devolver las categorías de la tienda
+    res.json(categories);
+  } catch (error) {
+    res.status(500).json({ error: 'Error al obtener las categorías de la tienda' });
+  }
+});
+
+
 // Eliminar una categoría de una tienda
 shopsRouter.delete('/:shopId/categories/:categoryType', async (req, res) => {
   const { shopId, categoryType } = req.params;

@@ -48,11 +48,11 @@ PUT http://localhost:3001/api/users/1
 Content-Type: application/json
 
 {
-  "name": "Updated Name",
-  "username": "updatedUsername",
-  "email": "updated@example.com",
+  "name": "Carlos López",
+  "username": "admin",
+  "email": "carlos@example.com",
   "role": "admin",
-  "passwordActual": "secret",
+  "passwordActual": "admin1234",
   "newPassword": "newSecret123"
 }
 
@@ -111,8 +111,13 @@ Content-Type: application/json
 
 ###
 
+# Obtener las categorías de una tienda
+GET http://localhost:3001/api/shops/2/categories
+
+###
+
 # Eliminar una categoría de una tienda
-DELETE http://localhost:3001/api/shops/1/categories/Accesorios
+DELETE http://localhost:3001/api/shops/2/categories/Audio
 
 ###
 
