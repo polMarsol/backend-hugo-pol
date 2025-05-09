@@ -34,7 +34,7 @@ shopsRouter.post('/', verifyToken, verifyRole(['admin']), async (req, res) => {
 });
 
 // Obtener todas las tiendas
-shopsRouter.get('/', verifyToken, verifyRole(['salesperson']), async (req, res) => {
+shopsRouter.get('/', async (req, res) => {
   try {
     const shops = await shopsModel.getAllShops();
     res.json(shops);
