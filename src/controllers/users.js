@@ -1,19 +1,34 @@
 const bcrypt = require('bcrypt')
 const usersRouter = require('express').Router()
 const usersModel = require('../models/users')
+const { verifyToken, verifyRole } = require('../utils/middleware');
 
-usersRouter.post('/', async (request, response) => {
-    const { name, username, password, email, role } = request.body
+usersRouter.post('/', verifyToken, verifyRole(['admin']), async (request, response) => {
+    const { name, username, password, email, role } = request.body;
 
-    const saltRounds = 10
-    const passwordHash = await bcrypt.hash(password, saltRounds)
+    if (role != 'admin' && role != 'salesperson') {
+        return response.status(403).json({ error: 'El administradir puede crear otros admin o salespersons únicamente' });
+    }
+
+    const saltRounds = 10;
+    const passwordHash = await bcrypt.hash(password, saltRounds);
 
     const user = {
-        username: username, name: name, password: passwordHash, email: email, role: role
+        username,
+        name,
+        password: passwordHash,
+        email,
+        role
+    };
+
+    try {
+        const savedUser = await usersModel.createUser(user);
+        response.status(201).json(savedUser);
+    } catch (error) {
+        response.status(500).json({ error: 'Error al crear el usuario' });
     }
-    const savedUser = await usersModel.createUser(user)
-    response.status(201).json(savedUser);
-})
+});
+
 
 
 usersRouter.get('/', async (request, response) => {

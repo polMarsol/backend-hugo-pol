@@ -10,8 +10,9 @@ DELETE http://localhost:3001/api/users/1
 
 ###
 
-# Crear usuario
+# Crear usuario (Nomes admin)
 POST http://localhost:3001/api/users
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwicm9sZSI6ImFkbWluIiwiaWF0IjoxNzQ2ODI2OTk4LCJleHAiOjE3NDY4MzA1OTh9.2TYFDI29y2ly_6U_8skmyysUYlXSL3Xl-UEGfwEISCg
 Content-Type: application/json
 
 {

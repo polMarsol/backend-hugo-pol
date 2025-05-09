@@ -88,7 +88,7 @@ const verifyToken = (req, res, next) => {
     try {
         const decodedToken = jwt.verify(token, process.env.SECRET);
 
-        if (!token || !decodedToken.id) {
+        if (!token || !decodedToken.role) {
             return res.status(401).json({ error: 'token missing or invalid' });
         }
 
