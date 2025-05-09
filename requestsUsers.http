@@ -15,9 +15,9 @@ POST http://localhost:3001/api/users
 Content-Type: application/json
 
 {
-  "name": "User1",
-  "username": "user1",
-  "passwordHash": "mypass",
+  "name": "Admin",
+  "username": "admin2",
+  "password": "admin1234",
   "email": "user1@gmail.com",
   "role": "admin"
 }
@@ -31,7 +31,7 @@ Content-Type: application/json
 {
   "name": "Carlos López",
   "username": "admin",
-  "passwordHash": "admin1234",
+  "password": "admin1234",
   "email": "carlos@example.com",
   "role": "admin"
 }
@@ -85,7 +85,7 @@ Content-Type: application/json
 
 {
   "username": "admin",
-  "password": "hashedpassword3"
+  "password": "admin1234"
 }
 
 ###
@@ -95,5 +95,5 @@ Content-Type: application/json
 
 {
   "username": "mariag",
-  "password": "hashedpassword3"
+  "password": "1234"
 }

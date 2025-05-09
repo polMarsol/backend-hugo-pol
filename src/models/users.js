@@ -3,17 +3,16 @@ const db = require("../utils/db")
 
 const createUser = user => {
     return new Promise((resolve, reject) => {
-        const {name, username, passwordHash, email, role } = user
-        const sql = "INSERT INTO users (name, username, passwordHash, email, role) VALUES (?, ?, ?, ?, ?)"
+        const {name, username, password, email, role } = user
+        const sql = "INSERT INTO users (name, username, password, email, role) VALUES (?, ?, ?, ?, ?)"
 
-        db.run(sql, [name, username, passwordHash, email, role], function (err) {
+        db.run(sql, [name, username, password, email, role], function (err) {
             err
                 ? reject(err)
                 : resolve({
                     id: this.lastID,
                     name: name,
                     username: username,
-                    passwordHash: passwordHash,
                     email: email,
                     role: role
                 })
@@ -23,7 +22,7 @@ const createUser = user => {
 
 const getAllUsers = () => {
     return new Promise((resolve, reject) => {
-        db.all("SELECT * FROM users", [], (err, rows) => {
+        db.all("SELECT name, username, email, role FROM users", [], (err, rows) => {
             err ? reject(err) : resolve(rows)
         })
     })
@@ -31,7 +30,7 @@ const getAllUsers = () => {
 
 const getUserByUsername = username => {
     return new Promise((resolve, reject) => {
-        const sql = "SELECT * FROM users where users.username = ?"
+        const sql = "SELECT name, username, email, role FROM users where users.username = ?"
         db.get(sql, [username], (err, row) => {
             err ? reject(err) : resolve(row)
         })
@@ -41,7 +40,7 @@ const getUserByUsername = username => {
 
 const getUserById = (id) => {
     return new Promise((resolve, reject) => {
-        const sql = "SELECT * FROM users where users.id = ?"
+        const sql = "SELECT name, username, email, role FROM users where users.id = ?"
         db.get(sql, [id], (err, row) => {
             err ? reject(err) : resolve(row)
         })
@@ -51,15 +50,14 @@ const getUserById = (id) => {
 
 const updateUser = (id, user) => {
     return new Promise((resolve, reject) => {
-        const {name, username, passwordHash, email, role } = user
-        const sql = "UPDATE users SET name = ?, username = ?, passwordHash = ?, email = ?, role = ? WHERE id = ?"
+        const {name, username, password, email, role } = user
+        const sql = "UPDATE users SET name = ?, username = ?, password = ?, email = ?, role = ? WHERE id = ?"
         
-        db.run(sql, [name, username, passwordHash, email, role, id], function (err) {
+        db.run(sql, [name, username, password, email, role, id], function (err) {
             err ? reject(err) : resolve({
                 id: id,
                 name: name,
                 username: username,
-                passwordHash: passwordHash,
                 email: email,
                 role: role
             })

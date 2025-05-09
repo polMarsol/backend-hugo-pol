@@ -6,6 +6,7 @@ const ordersModel = require("./orders")
 const orderListProductsModel = require("./orderListProducts")
 const productImagesModel = require("./productImages")
 const shopCategoriesModel = require("./shopCategories")
+const bcrypt = require('bcrypt');
  
  
 // Database initialization
@@ -16,7 +17,7 @@ const initDb = () => {
             id INTEGER PRIMARY KEY,
             name TEXT NOT NULL,
             username TEXT UNIQUE NOT NULL,
-            passwordHash TEXT NOT NULL,
+            password TEXT NOT NULL,
             email TEXT UNIQUE NOT NULL,
             role TEXT NOT NULL
         )`);
@@ -79,12 +80,27 @@ const initDb = () => {
             FOREIGN KEY(orderId) REFERENCES orders(id),
             FOREIGN KEY(productId) REFERENCES products(id)
         )`);
-        
-        db.run(`INSERT INTO users (name, username, passwordHash, email, role) VALUES
-            ('Juan Pérez', 'juanp', 'hashedpassword1', 'juan@example.com', 'shopper'),
-            ('María García', 'mariag', '$2b$10$ciczczK3smszgHB.cXUpfed8k.rHwZ5uPtOXPbml4J7AcT49CPioS', 'maria@example.com', 'salesperson'),
-            ('Carlos López', 'admin', '$2b$10$ciczczK3smszgHB.cXUpfed8k.rHwZ5uPtOXPbml4J7AcT49CPioS', 'carlos@example.com', 'admin')
-        `); // password: hashedpassword3
+
+        // Contraseñas que quieres encriptar
+        const passwords = ['1234', '1234', 'admin1234'];
+
+        // Encriptar las contraseñas
+        Promise.all(passwords.map(password => bcrypt.hash(password, 10)))
+        .then((hashedPasswords) => {
+            // Una vez que se hayan encriptado las contraseñas, puedes insertar los datos en la base de datos
+            const query = `
+            INSERT INTO users (name, username, password, email, role) VALUES
+            ('Juan Pérez', 'juanp', '${hashedPasswords[0]}', 'juan@example.com', 'shopper'),
+            ('María García', 'mariag', '${hashedPasswords[1]}', 'maria@example.com', 'salesperson'),
+            ('Carlos López', 'admin', '${hashedPasswords[2]}', 'carlos@example.com', 'admin')
+            `;
+            db.run(query);
+        })
+        .catch((err) => {
+            console.error('Error en la encriptación de contraseñas:', err);
+        });
+
+
  
         // Shops
         db.run(`INSERT INTO shops (ownerId, name, description) VALUES
