@@ -57,7 +57,7 @@ usersRouter.put('/:id', async (request, response) => {
     const updatedUser = { name, username, email, role };
     if (newPassword) {
         const saltRounds = 10;
-        updatedUser.passwordHash = await bcrypt.hash(newPassword, saltRounds);
+        updatedUser.password = await bcrypt.hash(newPassword, saltRounds);
     }
 
     await usersModel.updateUser(request.params.id, updatedUser);

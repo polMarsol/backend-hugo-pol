@@ -7,7 +7,8 @@ const userModel = require('../models/users');
 loginRouter.post('/', async (request, response) => {
     const { username, password } = request.body;
     const user = await userModel.getUserByUsername(username);
-    const passwordCorrect = user
+    console.log('Usuario encontrado:', user);
+    const passwordCorrect = user && user.password
         ? await bcrypt.compare(password, user.password)
         : false;
 

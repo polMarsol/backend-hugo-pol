@@ -53,7 +53,7 @@ Content-Type: application/json
   "email": "carlos@example.com",
   "role": "admin",
   "passwordActual": "admin1234",
-  "newPassword": "newSecret123"
+  "newPassword": "admin12345"
 }
 
 ###
@@ -79,7 +79,7 @@ DELETE http://localhost:3001/api/users/99999
 
 ###
 
-# Login
+# Login Admin con datos válidos
 POST http://localhost:3001/api/login
 Content-Type: application/json
 

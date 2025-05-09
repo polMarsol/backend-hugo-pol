@@ -30,7 +30,7 @@ const getAllUsers = () => {
 
 const getUserByUsername = username => {
     return new Promise((resolve, reject) => {
-        const sql = "SELECT name, username, email, role FROM users where users.username = ?"
+        const sql = "SELECT name, username, password, email, role FROM users where users.username = ?"
         db.get(sql, [username], (err, row) => {
             err ? reject(err) : resolve(row)
         })
