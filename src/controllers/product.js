@@ -3,20 +3,31 @@ const router = express.Router();
 const productModel = require("../models/products");
 const productImagesModel = require("../models/productImages");
 const { verifyToken, verifyRole } = require('../utils/middleware');
+const { usersModel, shopsModel } = require("../models");
 
 // Crear un producto
 router.post("/",verifyToken, verifyRole(['salesperson']),async (req, res) => {
     const { name, shopId, description, price, size } = req.body;
- 
-    if (!name || !shopId || !price) {
-        return res.status(400).json({ error: "Faltan campos obligatorios." });
-    }
-    
-    try {
-        const newProduct = await productModel.createProduct(req.body);
-        res.status(201).json(newProduct);
-    } catch (err) {
-        res.status(500).json({ error: err.message });
+
+    const id = req.user.id;
+
+    const infoShop = await shopsModel.getShopById(shopId)
+
+    const ownerId = infoShop.ownerId
+
+    if (id === ownerId) {
+        if (!name || !shopId || !price) {
+                return res.status(400).json({ error: "Faltan campos obligatorios." });
+            }
+            
+            try {
+                const newProduct = await productModel.createProduct(req.body);
+                res.status(201).json(newProduct);
+            } catch (err) {
+                res.status(500).json({ error: err.message });
+            }
+    } else {
+        return res.status(403).json({ error: 'No tienes permisos para crear en esta tienda' });
     }
 });
 

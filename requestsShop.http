@@ -54,6 +54,8 @@ Content-Type: application/json
 # Obtener todas las tiendas 
 GET http://localhost:3001/api/shops
 
+###
+
 # Obtener una tienda por su ID (con categorías)
 GET http://localhost:3001/api/shops/1
 

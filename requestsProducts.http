@@ -2,7 +2,7 @@
 
 # Crear un producto con datos válidos role salesperson
 POST http://localhost:3001/api/products
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Im1hcmlhZyIsImlkIjoyLCJyb2xlIjoic2FsZXNwZXJzb24iLCJpYXQiOjE3NDI3NjkwMDIsImV4cCI6MTc0Mjc3MjYwMn0.fGLYUrUykqQ4j4aRU5ot-YJj2U6YSy-7vyjcKLacPd8
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwidXNlcm5hbWUiOiJtYXJpYWciLCJyb2xlIjoic2FsZXNwZXJzb24iLCJpYXQiOjE3NDY5MDU1NTcsImV4cCI6MTc0NjkwOTE1N30.638GLUw82Gme0UpQPIn2dahY0f7ooNsVKSOUEirBmB8
 Content-Type: application/json
 
 {
@@ -42,6 +42,7 @@ GET http://localhost:3001/api/products/1
 
 # Actualizar un producto
 PUT http://localhost:3001/api/products/1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwidXNlcm5hbWUiOiJtYXJpYWciLCJyb2xlIjoic2FsZXNwZXJzb24iLCJpYXQiOjE3NDY5MDU1NTcsImV4cCI6MTc0NjkwOTE1N30.638GLUw82Gme0UpQPIn2dahY0f7ooNsVKSOUEirBmB8
 Content-Type: application/json
 
 {

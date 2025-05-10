@@ -25,15 +25,16 @@ Content-Type: application/json
 
 ###
 
-# Crear usuario con username duplicado (debe fallar)
+# Crear usuario con username no admin
 POST http://localhost:3001/api/users
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwidXNlcm5hbWUiOiJtYXJpYWciLCJyb2xlIjoic2FsZXNwZXJzb24iLCJpYXQiOjE3NDY5MDQ2MzYsImV4cCI6MTc0NjkwODIzNn0.w4OsENfKRK-3qwA6CwsAbg9F37vzrNoaevM3_WXaz-Q
 Content-Type: application/json
 
 {
-  "name": "Carlos López",
-  "username": "admin",
+  "name": "Pol",
+  "username": "admin1",
   "password": "admin1234",
-  "email": "carlos@example.com",
+  "email": "pol@example.com",
   "role": "admin"
 }
 
@@ -53,8 +54,8 @@ Content-Type: application/json
   "name": "María García",
   "username": "mariag",
   "email": "maria@example.com",
-  "role": "admin",
-  "passwordActual": "12345",
+  "role": "salesperson",
+  "passwordActual": "1234",
   "newPassword": "1234"
 }
 
