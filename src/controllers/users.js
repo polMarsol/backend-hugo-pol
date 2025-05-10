@@ -49,35 +49,50 @@ usersRouter.get('/:id', async (request, response) => {
 });
 
 
-usersRouter.put('/:id', async (request, response) => {
-    const { name, username, email, role, passwordActual, newPassword } = request.body;
-
-    const user = await usersModel.getUserById(request.params.id);
-    
-    if (!user) {
-        return response.status(400).json({ error: "Credenciales inválidas" });
+usersRouter.put('/:id', verifyToken, async (request, response) => {
+    const { id } = request.params;
+    const loggedInUserId = request.user.id;
+    console.log('Usuario: ', await usersModel.getUserById(id));
+    console.log('Usuario logueado: ', await usersModel.getUserById(loggedInUserId));
+    // Solo el propio usuario puede modificar sus datos
+    if (parseInt(id) !== loggedInUserId) {
+        return response.status(403).json({ error: "No tienes permiso para modificar este usuario" });
     }
 
+    const { name, username, email, role, passwordActual, newPassword } = request.body;
+
+    const user = await usersModel.getUserById(id); // importante: usa getUserById, no por username
+    if (!user) {
+        return response.status(400).json({ error: "Credenciales inválidas0" });
+    }
+
+    // Si quiere cambiar email o contraseña, debe proporcionar contraseña actual
     if ((email || newPassword) && !passwordActual) {
-        return response.status(400).json({ error: "Credenciales inválidas" });
+        return response.status(400).json({ error: "Credenciales inválidas1" });
     }
 
     if (passwordActual) {
-        const passwordCorrect = await bcrypt.compare(passwordActual, user.passwordHash);
+        const passwordCorrect = await bcrypt.compare(passwordActual, user.password);
         if (!passwordCorrect) {
-            return response.status(400).json({ error: "Credenciales inválidas" });
+            return response.status(400).json({ error: "Credenciales inválidas2" });
         }
     }
 
     const updatedUser = { name, username, email, role };
+
     if (newPassword) {
         const saltRounds = 10;
         updatedUser.password = await bcrypt.hash(newPassword, saltRounds);
     }
 
-    await usersModel.updateUser(request.params.id, updatedUser);
-    response.status(200).json({ message: "Usuario actualizado correctamente" });
+    try {
+        await usersModel.updateUser(id, updatedUser);
+        response.status(200).json({ message: "Usuario actualizado correctamente" });
+    } catch (error) {
+        response.status(500).json({ error: "Error al actualizar el usuario" });
+    }
 });
+
 
 usersRouter.delete('/:id', async (request, response) => {
     const user = await usersModel.getUserById(request.params.id);

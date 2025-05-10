@@ -50,7 +50,7 @@ const getUserById = (id) => {
 
 const updateUser = (id, user) => {
     return new Promise((resolve, reject) => {
-        const {name, username, password, email, role } = user
+        const {name, username, password, email, role} = user
         const sql = "UPDATE users SET name = ?, username = ?, password = ?, email = ?, role = ? WHERE id = ?"
         
         db.run(sql, [name, username, password, email, role, id], function (err) {
