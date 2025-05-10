@@ -1,3 +1,4 @@
+const { OPEN_READWRITE } = require("sqlite3")
 const logger = require("../utils/logger")
 
 const requestLogger = (request, response, next) => {
@@ -93,6 +94,10 @@ const verifyToken = (req, res, next) => {
         }
 
         req.user = decodedToken;
+        console.log(req.user.id)
+        console.log(req.user.username)
+        console.log(req.user.role)
+
         next();
     } catch (error) {
         return res.status(401).json({ error: 'invalid token' });

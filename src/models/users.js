@@ -30,7 +30,7 @@ const getAllUsers = () => {
 
 const getUserByUsername = username => {
     return new Promise((resolve, reject) => {
-        const sql = "SELECT name, username, password, email, role FROM users where users.username = ?"
+        const sql = "SELECT id, name, username, password, email, role FROM users where users.username = ?"
         db.get(sql, [username], (err, row) => {
             err ? reject(err) : resolve(row)
         })
@@ -40,7 +40,7 @@ const getUserByUsername = username => {
 
 const getUserById = (id) => {
     return new Promise((resolve, reject) => {
-        const sql = "SELECT name, username, email, role FROM users where users.id = ?"
+        const sql = "SELECT name, username, password, email, role FROM users where users.id = ?"
         db.get(sql, [id], (err, row) => {
             err ? reject(err) : resolve(row)
         })
@@ -50,10 +50,10 @@ const getUserById = (id) => {
 
 const updateUser = (id, user) => {
     return new Promise((resolve, reject) => {
-        const {name, username, password, email, role} = user
+        const {name, username, newPassword, email, role} = user
         const sql = "UPDATE users SET name = ?, username = ?, password = ?, email = ?, role = ? WHERE id = ?"
         
-        db.run(sql, [name, username, password, email, role, id], function (err) {
+        db.run(sql, [name, username, newPassword, email, role, id], function (err) {
             err ? reject(err) : resolve({
                 id: id,
                 name: name,

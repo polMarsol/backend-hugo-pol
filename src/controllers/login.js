@@ -18,11 +18,14 @@ loginRouter.post('/', async (request, response) => {
         });
     }
 
+    console.log('Id generat', user.id)
+
     const userForToken = {
-        username: user.username,
         id: user.id,
+        username: user.username,
         role: user.role
     };
+
 
     const token = jwt.sign(userForToken, process.env.SECRET, { expiresIn: '1h' });
     response

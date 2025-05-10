@@ -61,31 +61,39 @@ usersRouter.put('/:id', verifyToken, async (request, response) => {
 
     const { name, username, email, role, passwordActual, newPassword } = request.body;
 
+
     const user = await usersModel.getUserById(id); // importante: usa getUserById, no por username
     if (!user) {
-        return response.status(400).json({ error: "Credenciales inválidas0" });
+        return response.status(400).json({ error: "Credenciales inválidas" });
     }
+
 
     // Si quiere cambiar email o contraseña, debe proporcionar contraseña actual
     if ((email || newPassword) && !passwordActual) {
-        return response.status(400).json({ error: "Credenciales inválidas1" });
+        return response.status(400).json({ error: "Credenciales inválidas" });
     }
+
+    console.log("contrasenya: ", user.password)
 
     if (passwordActual) {
         const passwordCorrect = await bcrypt.compare(passwordActual, user.password);
         if (!passwordCorrect) {
-            return response.status(400).json({ error: "Credenciales inválidas2" });
+            return response.status(400).json({ error: "Credenciales inválidas" });
         }
     }
 
-    const updatedUser = { name, username, email, role };
+    const updatedUser = { name, username, newPassword, email, role };
+
 
     if (newPassword) {
         const saltRounds = 10;
-        updatedUser.password = await bcrypt.hash(newPassword, saltRounds);
+        updatedUser.newPassword = await bcrypt.hash(newPassword, saltRounds);
     }
 
+
     try {
+        console.log("id", id)
+        console.log("uptadetafew ", updatedUser)
         await usersModel.updateUser(id, updatedUser);
         response.status(200).json({ message: "Usuario actualizado correctamente" });
     } catch (error) {
