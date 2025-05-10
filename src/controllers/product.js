@@ -56,17 +56,41 @@ router.get("/:id", async (req, res) => {
 
 // Actualizar un producto
 router.put("/:id", verifyToken, verifyRole(['salesperson']) ,async (req, res) => {
-    try {
-        const updatedProduct = await productModel.updateProduct(req.params.id, req.body);
-        res.status(200).json(updatedProduct);
-    } catch (err) {
-        res.status(500).json({ error: err.message });
+    const { name, shopId, description, price, size } = req.body;
+
+    const id = req.params
+
+    const tokenId = req.user.id
+
+    const infoShop = await shopsModel.getShopById(shopId)
+
+    const ownerId = infoShop.ownerId
+
+    if (tokenId === ownerId) {
+        try {
+            const updatedProduct = await productModel.updateProduct(req.params.id, req.body);
+            res.status(200).json(updatedProduct);
+        } catch (err) {
+            res.status(500).json({ error: err.message });
+        }
+    } else {
+        return res.status(403).json({ error: 'No tienes permisos para actualizar productos en esta tienda' });
     }
 });
 
 // Eliminar un producto por ID
 router.delete("/:id", verifyToken, verifyRole(['salesperson']) ,async (req, res) => {
-    try {
+
+    const tokenId = req.user.id
+
+    const product = await productModel.getProductById(req.params.id)
+
+    const infoShop = await shopsModel.getShopById(product.shopId)
+
+    const ownerId = infoShop.ownerId
+
+    if (tokenId === ownerId) {
+        try {
         await productImagesModel.deleteProductImagesByProductId(req.params.id);
         const deletedRows = await productModel.deleteProductById(req.params.id);
  
@@ -76,6 +100,9 @@ router.delete("/:id", verifyToken, verifyRole(['salesperson']) ,async (req, res)
         res.status(200).json({ message: "Producto eliminado correctamente" });
     } catch (err) {
         res.status(500).json({ error: err.message });
+    }
+    } else {
+        return res.status(403).json({ error: 'No tienes permisos para eliminar productos en esta tienda' });
     }
 });
 

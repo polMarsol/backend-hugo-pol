@@ -56,7 +56,9 @@ Content-Type: application/json
 ###
 
 # Eliminar un producto por ID
-DELETE http://localhost:3001/api/products/1
+DELETE http://localhost:3001/api/products/3
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwidXNlcm5hbWUiOiJtYXJpYWciLCJyb2xlIjoic2FsZXNwZXJzb24iLCJpYXQiOjE3NDY5MDU1NTcsImV4cCI6MTc0NjkwOTE1N30.638GLUw82Gme0UpQPIn2dahY0f7ooNsVKSOUEirBmB8
+Content-Type: application/json
 ###
 
 # Crear un producto con datos inválidos (debe fallar)
