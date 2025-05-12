@@ -92,4 +92,79 @@ const deleteOrderProductsByOrderId = async (orderId) => {
     });
 };
   
-module.exports = { createOrder, getAllOrders, getOrderById, updateOrder, deleteOrderById, deleteOrderProductsByOrderId};
+
+const getOrdersByShopperId = (shopperId) => {
+    return new Promise((resolve, reject) => {
+        const sql = "SELECT * FROM orders WHERE shopperId = ?";
+        db.all(sql, [shopperId], async (err, rows) => {
+            if (err) {
+                reject(err);
+            } else {
+                const ordersWithProducts = await Promise.all(
+                    rows.map(async (order) => {
+                        const products = await orderListProductsModel.getProductsByOrderId(order.id);
+                        return {
+                            ...order,
+                            products,
+                        };
+                    })
+                );
+                resolve(ordersWithProducts);
+            }
+        });
+    });
+}
+
+
+
+const getShopIdsByOwnerId = (ownerId) => {
+    return new Promise((resolve, reject) => {
+        const sql = "SELECT id FROM shops WHERE ownerId = ?";
+        db.all(sql, [ownerId], (err, rows) => {
+            if (err) {
+                reject(err);
+            } else {
+                const shopIds = rows.map(row => row.id);
+                resolve(shopIds);
+            }
+        });
+    });
+}
+
+
+
+const getOrdersByShopIds = (shopIds) => {
+    return new Promise((resolve, reject) => {
+        if (shopIds.length === 0) return resolve([]);
+
+        const placeholders = shopIds.map(() => '?').join(',');
+        const sql = `SELECT * FROM orders WHERE shopId IN (${placeholders})`;
+
+        db.all(sql, shopIds, async (err, rows) => {
+            if (err) return reject(err);
+
+            const ordersWithProducts = await Promise.all(
+                rows.map(async (order) => {
+                    const products = await orderListProductsModel.getProductsByOrderId(order.id);
+                    return { ...order, products };
+                })
+            );
+
+            resolve(ordersWithProducts);
+        });
+    });
+};
+
+
+
+module.exports = { 
+    createOrder, 
+    getAllOrders, 
+    getOrderById, 
+    updateOrder, 
+    deleteOrderById, 
+    deleteOrderProductsByOrderId, 
+    getOrdersByShopperId, 
+    getShopIdsByOwnerId, 
+    getOrdersByShopIds
+};

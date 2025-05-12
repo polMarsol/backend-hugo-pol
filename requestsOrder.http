@@ -12,8 +12,15 @@ Content-Type: application/json
 
 ###
 
-# Obtener todos los pedidos
+# Obtener todos los pedidos (mariag)
 GET http://localhost:3001/api/order
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwidXNlcm5hbWUiOiJtYXJpYWciLCJyb2xlIjoic2FsZXNwZXJzb24iLCJpYXQiOjE3NDcwNjMxMDMsImV4cCI6MTc0NzA2NjcwM30.4YH6oeaVaXcPnl_kP4CAYHwlVuJMlWKN76AUwQUfZHA
+
+###
+
+# Obtener todos los pedidos (juanp)
+GET http://localhost:3001/api/order
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwidXNlcm5hbWUiOiJqdWFucCIsInJvbGUiOiJzaG9wcGVyIiwiaWF0IjoxNzQ3MDYzMzU3LCJleHAiOjE3NDcwNjY5NTd9.HoPqwtImGf2Gq-gHwOeln6ZGccJSioZNIgPaMQZpptY
 
 ###
 

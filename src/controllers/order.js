@@ -20,11 +20,18 @@ ordersRouter.post('/', verifyToken, verifyRole(['shopper']) ,async (req, res) =>
 });
 
 // Obtener todos los pedidos
-ordersRouter.get('/', async (req, res) => {
+ordersRouter.get('/', verifyToken, verifyRole(['shopper', 'salesperson']), async (req, res) => {
   try {
-    const orders = await orderModel.getAllOrders();
-    res.json(orders);
+    let orders
+    if(req.user.role === 'shopper') {
+      orders = await orderModel.getOrdersByShopperId(req.user.id)
+    } else if (req.user.role === 'salesperson') {
+      const shopIds = await orderModel.getShopIdsByOwnerId(req.user.id);
+      orders = await orderModel.getOrdersByShopIds(shopIds);
+    }
+    res.json(orders)
   } catch (error) {
+    console.error(error)
     res.status(500).json({ error: 'Error al obtener los pedidos' });
   }
 });

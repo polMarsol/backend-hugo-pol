@@ -2,7 +2,7 @@ GET http://localhost:3001/api/users
 
 ###
 
-GET http://localhost:3001/api/users/3
+GET http://localhost:3001/api/users/1
 
 ###
 
@@ -12,7 +12,7 @@ DELETE http://localhost:3001/api/users/1
 
 # Crear usuario (Nomes admin)
 POST http://localhost:3001/api/users
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywidXNlcm5hbWUiOiJhZG1pbiIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTc0NjkwMjkxOCwiZXhwIjoxNzQ2OTA2NTE4fQ.ash9geewIycGwKlNwDmID-7Tent1Q5uzcjktSj8DfxI
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwicm9sZSI6ImFkbWluIiwiaWF0IjoxNzQ2ODI2OTk4LCJleHAiOjE3NDY4MzA1OTh9.2TYFDI29y2ly_6U_8skmyysUYlXSL3Xl-UEGfwEISCg
 Content-Type: application/json
 
 {
@@ -25,16 +25,15 @@ Content-Type: application/json
 
 ###
 
-# Crear usuario con username no admin
+# Crear usuario con username duplicado (debe fallar)
 POST http://localhost:3001/api/users
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwidXNlcm5hbWUiOiJtYXJpYWciLCJyb2xlIjoic2FsZXNwZXJzb24iLCJpYXQiOjE3NDY5MDQ2MzYsImV4cCI6MTc0NjkwODIzNn0.w4OsENfKRK-3qwA6CwsAbg9F37vzrNoaevM3_WXaz-Q
 Content-Type: application/json
 
 {
-  "name": "Pol",
-  "username": "admin1",
+  "name": "Carlos López",
+  "username": "admin",
   "password": "admin1234",
-  "email": "pol@example.com",
+  "email": "carlos@example.com",
   "role": "admin"
 }
 
@@ -46,17 +45,18 @@ GET http://localhost:3001/api/users/99999
 ###
 
 # Actualizar usuario con datos válidos
-PUT http://localhost:3001/api/users/2
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwidXNlcm5hbWUiOiJtYXJpYWciLCJyb2xlIjoic2FsZXNwZXJzb24iLCJpYXQiOjE3NDY5MDQzNTMsImV4cCI6MTc0NjkwNzk1M30.YHJ4oC-cIujuzy0qk_Bci-nd0IVkba8OFKZYNd4eQ3Y
-Content-Type: application/json
+PUT http://localhost:3001/api/users/3
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwicm9sZSI6ImFkbWluIiwiaWF0IjoxNzQ2OTAwMDQ2LCJleHAiOjE3NDY5MDM2NDZ9.5gKBgfS66RlVMsvsgmo_7RU0fCxIDENld7Olsk7WfMQ
+Content-Type: application/jsond
 
 {
-  "name": "María García",
-  "username": "mariag",
-  "email": "maria@example.com",
-  "role": "salesperson",
-  "passwordActual": "1234",
-  "newPassword": "1234"
+  "name": "Carlos López",
+  "username": "admin",
+  "email": "carlos@example.com",
+  "role": "admin",
+  "passwordActual": "admin1234",
+  "newPassword": "admin12345"
+
 }
 
 ###
@@ -98,5 +98,15 @@ Content-Type: application/json
 
 {
   "username": "mariag",
+  "password": "1234"
+}
+
+###
+
+POST http://localhost:3001/api/login
+Content-Type: application/json
+
+{
+  "username": "juanp",
   "password": "1234"
 }
