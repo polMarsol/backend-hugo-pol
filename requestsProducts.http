@@ -102,3 +102,32 @@ GET http://localhost:3001/api/products/1/images
 DELETE http://localhost:3001/api/products/1/images
 
 ###
+
+
+# Crear un producto nuevo para Tienda de María (shopId = 1)
+POST http://localhost:3001/api/products
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwidXNlcm5hbWUiOiJtYXJpYWciLCJyb2xlIjoic2FsZXNwZXJzb24iLCJpYXQiOjE3NDcwNjQ5MTcsImV4cCI6MTc0NzA2ODUxN30.q97zjlk8umBpTLOC4dMAg4TBi2L1wKzugkA6P6fskHg
+
+{
+  "shopId": 1,
+  "name": "Chaqueta Roja",
+  "description": "Chaqueta impermeable con forro polar",
+  "price": 49.99,
+  "size": "L"
+}
+
+###
+
+# Crear un producto nuevo para ElectroCarlos (shopId = 2) no va perque aquest id es del admin 
+#i nomes pot crear un salesperson
+POST http://localhost:3001/api/products
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywidXNlcm5hbWUiOiJhZG1pbiIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTc0NzA2NTAzNSwiZXhwIjoxNzQ3MDY4NjM1fQ.ROL0IWLChtHYnSAyqA_Bh7OMrpbCEQjYmivnOaoqix4
+
+{
+  "shopId": 2,
+  "name": "Tablet Z10",
+  "description": "Tablet de 10 pulgadas con 64GB de memoria",
+  "price": 299.99
+}

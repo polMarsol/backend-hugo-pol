@@ -2,18 +2,31 @@ const express = require('express');
 const orderModel = require('../models/orders');
 const ordersRouter = express.Router();
 const { verifyToken, verifyRole } = require('../utils/middleware');
+const { orderListProductsModel } = require('../models');
 
 // Crear un pedido
 ordersRouter.post('/', verifyToken, verifyRole(['shopper']) ,async (req, res) => {
-  const { shopperId, shopId, address, status, totalPrice } = req.body;
+  const { shopperId, shopId, address, status, totalPrice, products } = req.body;
 
-  if (!shopperId || !shopId || !address || !status || !totalPrice) {
-    return res.status(400).json({ error: 'Todos los campos son obligatorios' });
+  if (!shopperId || !shopId || !address || !status || !totalPrice || !products || !Array.isArray(products)) {
+    return res.status(400).json({ error: 'Todos los campos son obligatorios, incluyendo los productos' });
   }
 
   try {
     const newOrder = await orderModel.createOrder({ shopperId, shopId, address, status, totalPrice });
-    res.status(201).json(newOrder);
+
+    const productPromises = products.map(p =>
+      orderListProductsModel.addProductToOrder({
+        orderId: newOrder.id,
+        productId: p.productId,
+        quantity: p.quantity,
+        totalProductPrice: p.totalProductPrice
+      })
+    )
+    await Promise.all(productPromises)
+    const createdOrder = await orderModel.getOrderById(newOrder.id);
+    
+    res.status(201).json(createdOrder);
   } catch (error) {
     res.status(500).json({ error: 'Error al crear el pedido' });
   }

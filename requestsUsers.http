@@ -93,6 +93,7 @@ Content-Type: application/json
 
 ###
 
+# Login salesperson con datos válidos
 POST http://localhost:3001/api/login
 Content-Type: application/json
 
@@ -103,6 +104,7 @@ Content-Type: application/json
 
 ###
 
+# Login Shopper con datos válidos
 POST http://localhost:3001/api/login
 Content-Type: application/json
 

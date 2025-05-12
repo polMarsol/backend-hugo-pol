@@ -53,4 +53,25 @@ GET http://localhost:3001/api/order/99999
 # Intentar eliminar un pedido inexistente (debe fallar)
 DELETE http://localhost:3001/api/order/99999
 
+###
+
+# Crear un pedido nuevo con productos nuevos
+POST http://localhost:3001/api/order
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwidXNlcm5hbWUiOiJqdWFucCIsInJvbGUiOiJzaG9wcGVyIiwiaWF0IjoxNzQ3MDY1MTgzLCJleHAiOjE3NDcwNjg3ODN9.42YfGfDC0JX5sjmnasIrO3EA7yN3dfEC9uGTr3OkxeM
+
+{
+  "shopperId": 1,
+  "shopId": 1,
+  "address": "Calle Nueva 99",
+  "status": "pending",
+  "totalPrice": 49.99,
+  "products": [
+    {
+      "productId": 4,
+      "quantity": 1,
+      "totalProductPrice": 49.99
+    }
+  ]
+}
 
