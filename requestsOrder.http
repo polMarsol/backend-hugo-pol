@@ -14,13 +14,7 @@ Content-Type: application/json
 
 # Obtener todos los pedidos (mariag)
 GET http://localhost:3001/api/order
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwidXNlcm5hbWUiOiJtYXJpYWciLCJyb2xlIjoic2FsZXNwZXJzb24iLCJpYXQiOjE3NDcwNjMxMDMsImV4cCI6MTc0NzA2NjcwM30.4YH6oeaVaXcPnl_kP4CAYHwlVuJMlWKN76AUwQUfZHA
-
-###
-
-# Obtener todos los pedidos (juanp)
-GET http://localhost:3001/api/order
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwidXNlcm5hbWUiOiJqdWFucCIsInJvbGUiOiJzaG9wcGVyIiwiaWF0IjoxNzQ3MDYzMzU3LCJleHAiOjE3NDcwNjY5NTd9.HoPqwtImGf2Gq-gHwOeln6ZGccJSioZNIgPaMQZpptY
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwidXNlcm5hbWUiOiJtYXJpYWciLCJyb2xlIjoic2FsZXNwZXJzb24iLCJpYXQiOjE3NDcwNzY3NjgsImV4cCI6MTc0NzA4MDM2OH0.hWN8Zl8HBrxYFC3On4V7RNIBG13GQKJSVY_SdSDqYBU
 
 ###
 
@@ -30,11 +24,11 @@ GET http://localhost:3001/api/order/2
 ###
 
 # Actualizar un pedido
-PUT http://localhost:3001/api/order/2
+PUT http://localhost:3001/api/order/1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwidXNlcm5hbWUiOiJtYXJpYWciLCJyb2xlIjoic2FsZXNwZXJzb24iLCJpYXQiOjE3NDcwNzY3NjgsImV4cCI6MTc0NzA4MDM2OH0.hWN8Zl8HBrxYFC3On4V7RNIBG13GQKJSVY_SdSDqYBU
 Content-Type: application/json
 
 {
-  "address": "456 New Address",
   "status": "shipped"
 }
 
@@ -58,7 +52,7 @@ DELETE http://localhost:3001/api/order/99999
 # Crear un pedido nuevo con productos nuevos
 POST http://localhost:3001/api/order
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwidXNlcm5hbWUiOiJqdWFucCIsInJvbGUiOiJzaG9wcGVyIiwiaWF0IjoxNzQ3MDY1MTgzLCJleHAiOjE3NDcwNjg3ODN9.42YfGfDC0JX5sjmnasIrO3EA7yN3dfEC9uGTr3OkxeM
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwidXNlcm5hbWUiOiJqdWFucCIsInJvbGUiOiJzaG9wcGVyIiwiaWF0IjoxNzQ3MDc2Njg3LCJleHAiOjE3NDcwODAyODd9.1Dxv-pEOQO6UnnOePRyRXqdXwLiLtU-8G36B_YrnEoo
 
 {
   "shopperId": 1,

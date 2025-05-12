@@ -31,14 +31,14 @@ usersRouter.post('/', verifyToken, verifyRole(['admin']), async (request, respon
 
 
 
-usersRouter.get('/', async (request, response) => {
+usersRouter.get('/', verifyToken, verifyRole(['admin']), async (request, response) => {
     const users = await usersModel.getAllUsers();
     response.json(users);
 });
 
 
 
-usersRouter.get('/:id', async (request, response) => {
+usersRouter.get('/:id', verifyToken, verifyRole(['admin']), async (request, response) => {
     const user = await usersModel.getUserById(request.params.id);
 
     if (!user) {
@@ -52,8 +52,6 @@ usersRouter.get('/:id', async (request, response) => {
 usersRouter.put('/:id', verifyToken, async (request, response) => {
     const { id } = request.params;
     const loggedInUserId = request.user.id;
-    console.log('Usuario: ', await usersModel.getUserById(id));
-    console.log('Usuario logueado: ', await usersModel.getUserById(loggedInUserId));
     // Solo el propio usuario puede modificar sus datos
     if (parseInt(id) !== loggedInUserId) {
         return response.status(403).json({ error: "No tienes permiso para modificar este usuario" });
@@ -102,7 +100,7 @@ usersRouter.put('/:id', verifyToken, async (request, response) => {
 });
 
 
-usersRouter.delete('/:id', async (request, response) => {
+usersRouter.delete('/:id', verifyToken, verifyRole(['admin']), async (request, response) => {
     const user = await usersModel.getUserById(request.params.id);
 
     if (!user) {

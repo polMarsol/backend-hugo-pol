@@ -63,7 +63,7 @@ shopsRouter.get('/:id', async (req, res) => {
 
 
 // Actualizar una tienda
-shopsRouter.put('/:id', async (req, res) => {
+shopsRouter.put('/:id', verifyToken, verifyRole(['salesperson']), async (req, res) => {
   const { id } = req.params;
   const { ownerId, name, description } = req.body;
 
@@ -76,7 +76,7 @@ shopsRouter.put('/:id', async (req, res) => {
 });
 
 // Eliminar una tienda y sus categorías asociadas
-shopsRouter.delete('/:id', async (req, res) => {
+shopsRouter.delete('/:id', verifyToken, verifyRole(['salesperson', 'admin']),async (req, res) => {
   const { id } = req.params;
 
   try {
@@ -102,7 +102,7 @@ shopsRouter.delete('/:id', async (req, res) => {
 
 
 // Añadir una categoría a una tienda
-shopsRouter.post('/:id/categories', async (req, res) => {
+shopsRouter.post('/:id/categories', verifyToken, verifyRole(['salesperson']), async (req, res) => {
   const { id } = req.params;
   const { categoryType } = req.body;
 
@@ -146,7 +146,7 @@ shopsRouter.get('/:id/categories', async (req, res) => {
 
 
 // Eliminar una categoría de una tienda
-shopsRouter.delete('/:shopId/categories/:categoryType', async (req, res) => {
+shopsRouter.delete('/:shopId/categories/:categoryType', verifyToken, verifyRole(['salesperson']), async (req, res) => {
   const { shopId, categoryType } = req.params;
 
   try {

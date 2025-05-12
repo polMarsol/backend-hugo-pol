@@ -57,14 +57,14 @@ const getOrderById = (id) => {
     });
 };
 
-// Actualizar un pedido (solo dirección y estado pueden cambiar)
-const updateOrder = (id, { address, status }) => {
+// Actualizar un pedido (solo estado pueden cambiar)
+const updateOrder = (id, {status }) => {
     return new Promise((resolve, reject) => {
-        const sql = "UPDATE orders SET address = ?, status = ? WHERE id = ?";
+        const sql = "UPDATE orders SET status = ? WHERE id = ?";
 
-        db.run(sql, [address, status, id], function (err) {
+        db.run(sql, [status, id], function (err) {
             if (err) reject(err);
-            else resolve({ id, address, status, message: "Order updated successfully" });
+            else resolve({ id, status, message: "Order updated successfully" });
         });
     });
 };

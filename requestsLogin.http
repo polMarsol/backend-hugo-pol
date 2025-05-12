@@ -1,0 +1,30 @@
+# Login Admin con datos válidos
+POST http://localhost:3001/api/login
+Content-Type: application/json
+
+{
+  "username": "admin",
+  "password": "admin1234"
+}
+
+###
+
+# Login salesperson con datos válidos
+POST http://localhost:3001/api/login
+Content-Type: application/json
+
+{
+  "username": "mariag",
+  "password": "1234"
+}
+
+###
+
+# Login Shopper con datos válidos
+POST http://localhost:3001/api/login
+Content-Type: application/json
+
+{
+  "username": "juanp",
+  "password": "1234"
+}

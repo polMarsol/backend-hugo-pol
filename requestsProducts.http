@@ -107,7 +107,7 @@ DELETE http://localhost:3001/api/products/1/images
 # Crear un producto nuevo para Tienda de María (shopId = 1)
 POST http://localhost:3001/api/products
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwidXNlcm5hbWUiOiJtYXJpYWciLCJyb2xlIjoic2FsZXNwZXJzb24iLCJpYXQiOjE3NDcwNjQ5MTcsImV4cCI6MTc0NzA2ODUxN30.q97zjlk8umBpTLOC4dMAg4TBi2L1wKzugkA6P6fskHg
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwidXNlcm5hbWUiOiJtYXJpYWciLCJyb2xlIjoic2FsZXNwZXJzb24iLCJpYXQiOjE3NDcwNzY5NDQsImV4cCI6MTc0NzA4MDU0NH0.lOvqEsgLAou1xkppQ3pKEnfCXD2LdSE6qu8eGbQuMQQ
 
 {
   "shopId": 1,
@@ -119,11 +119,10 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwidXNlcm5hb
 
 ###
 
-# Crear un producto nuevo para ElectroCarlos (shopId = 2) no va perque aquest id es del admin 
-#i nomes pot crear un salesperson
+# Crear un producto nuevo para ElectroCarlos (shopId = 2) no va perque aquest id es del admin i nomes pot crear un salesperson
 POST http://localhost:3001/api/products
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywidXNlcm5hbWUiOiJhZG1pbiIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTc0NzA2NTAzNSwiZXhwIjoxNzQ3MDY4NjM1fQ.ROL0IWLChtHYnSAyqA_Bh7OMrpbCEQjYmivnOaoqix4
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywidXNlcm5hbWUiOiJhZG1pbiIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTc0NzA3NzIyMywiZXhwIjoxNzQ3MDgwODIzfQ.DbJzfNEncPET2IrqSmDqEIYkomWX3YQpEoOi8SLilEE
 
 {
   "shopId": 2,

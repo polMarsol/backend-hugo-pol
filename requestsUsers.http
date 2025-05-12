@@ -1,18 +1,6 @@
-GET http://localhost:3001/api/users
-
-###
-
-GET http://localhost:3001/api/users/1
-
-###
-
-DELETE http://localhost:3001/api/users/1
-
-###
-
 # Crear usuario (Nomes admin)
 POST http://localhost:3001/api/users
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwicm9sZSI6ImFkbWluIiwiaWF0IjoxNzQ2ODI2OTk4LCJleHAiOjE3NDY4MzA1OTh9.2TYFDI29y2ly_6U_8skmyysUYlXSL3Xl-UEGfwEISCg
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwidXNlcm5hbWUiOiJtYXJpYWciLCJyb2xlIjoic2FsZXNwZXJzb24iLCJpYXQiOjE3NDcwNzkyODAsImV4cCI6MTc0NzA4Mjg4MH0.L-1XVTbrFAKJpjDN4jFUc2I8swYKzRHfbl2VilzwzlI
 Content-Type: application/json
 
 {
@@ -25,22 +13,17 @@ Content-Type: application/json
 
 ###
 
-# Crear usuario con username duplicado (debe fallar)
-POST http://localhost:3001/api/users
+# Llistar usuaris
+GET http://localhost:3001/api/users
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwidXNlcm5hbWUiOiJtYXJpYWciLCJyb2xlIjoic2FsZXNwZXJzb24iLCJpYXQiOjE3NDcwNzkyODAsImV4cCI6MTc0NzA4Mjg4MH0.L-1XVTbrFAKJpjDN4jFUc2I8swYKzRHfbl2VilzwzlI
 Content-Type: application/json
-
-{
-  "name": "Carlos López",
-  "username": "admin",
-  "password": "admin1234",
-  "email": "carlos@example.com",
-  "role": "admin"
-}
 
 ###
 
-# Obtener usuario inexistente (debe fallar)
-GET http://localhost:3001/api/users/99999
+# Llistar usuari per id (Nomes admin)
+GET http://localhost:3001/api/users/1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwidXNlcm5hbWUiOiJtYXJpYWciLCJyb2xlIjoic2FsZXNwZXJzb24iLCJpYXQiOjE3NDcwNzkyODAsImV4cCI6MTc0NzA4Mjg4MH0.L-1XVTbrFAKJpjDN4jFUc2I8swYKzRHfbl2VilzwzlI
+Content-Type: application/json
 
 ###
 
@@ -59,56 +42,11 @@ Content-Type: application/jsond
 
 }
 
-###
-
-# Intentar actualizar usuario con contraseña incorrecta (debe fallar)
-PUT http://localhost:3001/api/users/1
-Content-Type: application/json
-
-{
-  "name": "New Name",
-  "username": "newUsername",
-  "email": "new@example.com",
-  "role": "admin",
-  "passwordActual": "wrongPassword",
-  "newPassword": "newSecret123"
-}
 
 ###
 
-# Intentar eliminar usuario inexistente (debe fallar)
-DELETE http://localhost:3001/api/users/99999
-
-
-###
-
-# Login Admin con datos válidos
-POST http://localhost:3001/api/login
-Content-Type: application/json
-
-{
-  "username": "admin",
-  "password": "admin1234"
-}
+DELETE http://localhost:3001/api/users/4
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwidXNlcm5hbWUiOiJtYXJpYWciLCJyb2xlIjoic2FsZXNwZXJzb24iLCJpYXQiOjE3NDcwNzkyODAsImV4cCI6MTc0NzA4Mjg4MH0.L-1XVTbrFAKJpjDN4jFUc2I8swYKzRHfbl2VilzwzlI
+Content-Type: application/jsond
 
 ###
-
-# Login salesperson con datos válidos
-POST http://localhost:3001/api/login
-Content-Type: application/json
-
-{
-  "username": "mariag",
-  "password": "1234"
-}
-
-###
-
-# Login Shopper con datos válidos
-POST http://localhost:3001/api/login
-Content-Type: application/json
-
-{
-  "username": "juanp",
-  "password": "1234"
-}

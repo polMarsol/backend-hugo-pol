@@ -1,55 +1,16 @@
 //SHOPS
-# Crear una tienda con datos válidos (invalid token)
+# Crear una tienda con datos válidos
 POST http://localhost:3001/api/shops
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywidXNlcm5hbWUiOiJhZG1pbiIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTc0NzA4MjU5MSwiZXhwIjoxNzQ3MDg2MTkxfQ.2PicyfATGWVKRhU1zbrwUY5u8mQHQedp1acMjUopOtY
 Content-Type: application/json
 
 {
-  "ownerId": 4,
+  "ownerId": 2,
   "name": "Tienda de Deportes",
   "description": "Ropa y accesorios deportivos"
 }
 
 ###
-
-# Create admin with a role salesperson 
-POST http://localhost:3001/api/shops
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwiaWQiOjMsInJvbGUiOiJhZG1pbiIsImlhdCI6MTc0Mjc2ODQ0OSwiZXhwIjoxNzQyNzcyMDQ5fQ.9axKXgAGayC7oYYGOfBUfthLklK8eHFuudZvuw_y8Yo
-Content-Type: application/json
-
-{
-  "ownerId": 2,
-  "name": "Tienda de ropa",
-  "description": "Ropa de moda"
-}
-
-###
-
-# Create admin without a role salesperson (error)
-POST http://localhost:3001/api/shops
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwiaWQiOjMsInJvbGUiOiJhZG1pbiIsImlhdCI6MTc0Mjc2ODQ0OSwiZXhwIjoxNzQyNzcyMDQ5fQ.9axKXgAGayC7oYYGOfBUfthLklK8eHFuudZvuw_y8Yo
-Content-Type: application/json
-
-{
-  "ownerId": 1,
-  "name": "Tienda de ropa",
-  "description": "Ropa de moda"
-}
-
-###
-
-# Create salesperson role (invalid credentials)
-POST http://localhost:3001/api/shops
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Im1hcmlhZyIsImlkIjoyLCJyb2xlIjoic2FsZXNwZXJzb24iLCJpYXQiOjE3NDI3NjkwMDIsImV4cCI6MTc0Mjc3MjYwMn0.fGLYUrUykqQ4j4aRU5ot-YJj2U6YSy-7vyjcKLacPd8
-Content-Type: application/json
-
-{
-  "ownerId": 1,
-  "name": "Tienda de ropa",
-  "description": "Ropa de moda"
-}
-
-###
-
 
 # Obtener todas las tiendas 
 GET http://localhost:3001/api/shops
@@ -57,12 +18,33 @@ GET http://localhost:3001/api/shops
 ###
 
 # Obtener una tienda por su ID (con categorías)
-GET http://localhost:3001/api/shops/1
+GET http://localhost:3001/api/shops/2
+
+###
+
+# Actualizar una tienda
+PUT http://localhost:3001/api/shops/3
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwidXNlcm5hbWUiOiJtYXJpYWciLCJyb2xlIjoic2FsZXNwZXJzb24iLCJpYXQiOjE3NDcwODMyMzksImV4cCI6MTc0NzA4NjgzOX0.3dEZdRs9sHE4bGkz6aCOQeYk2VmIKwX9NaZcjIPSH6E
+Content-Type: application/json
+
+{
+  "ownerId": 1,
+  "name": "Tienda de Deportes2",
+  "description": "Ropa y accesorios deportivos"
+}
+
+###
+
+# Eliminar una tienda por su ID (con categorías)
+DELETE http://localhost:3001/api/shops/1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwidXNlcm5hbWUiOiJtYXJpYWciLCJyb2xlIjoic2FsZXNwZXJzb24iLCJpYXQiOjE3NDcwODI4MTMsImV4cCI6MTc0NzA4NjQxM30.D2KewR7TgP033smvIQwT93bxzR21NLtfnvDmYeZsx54
+Content-Type: application/json
 
 ###
 
 # Añadir una categoría a una tienda
 POST http://localhost:3001/api/shops/2/categories
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwidXNlcm5hbWUiOiJtYXJpYWciLCJyb2xlIjoic2FsZXNwZXJzb24iLCJpYXQiOjE3NDcwODI4MTMsImV4cCI6MTc0NzA4NjQxM30.D2KewR7TgP033smvIQwT93bxzR21NLtfnvDmYeZsx54
 Content-Type: application/json
 
 {
@@ -77,29 +59,8 @@ GET http://localhost:3001/api/shops/2/categories
 ###
 
 # Eliminar una categoría de una tienda
-DELETE http://localhost:3001/api/shops/2/categories/Audio
-
-###
-
-# Crear una tienda con datos inválidos (debe fallar)
-POST http://localhost:3001/api/shops
+DELETE http://localhost:3001/api/shops/2/categories/Electrónica
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwidXNlcm5hbWUiOiJtYXJpYWciLCJyb2xlIjoic2FsZXNwZXJzb24iLCJpYXQiOjE3NDcwODI4MTMsImV4cCI6MTc0NzA4NjQxM30.D2KewR7TgP033smvIQwT93bxzR21NLtfnvDmYeZsx54
 Content-Type: application/json
 
-{
-  "name": "Tienda de Zapatos"
-}
-
 ###
-
-# Obtener una tienda inexistente (debe fallar)
-GET http://localhost:3001/api/shops/9999
-
-###
-
-# Eliminar una tienda
-DELETE http://localhost:3001/api/shops/2
-
-###
-
-# Eliminar una tienda inexistente (debe fallar)
-DELETE http://localhost:3001/api/shops/9999

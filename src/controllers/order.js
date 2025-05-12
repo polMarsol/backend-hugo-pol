@@ -2,7 +2,7 @@ const express = require('express');
 const orderModel = require('../models/orders');
 const ordersRouter = express.Router();
 const { verifyToken, verifyRole } = require('../utils/middleware');
-const { orderListProductsModel } = require('../models');
+const { orderListProductsModel, shopsModel } = require('../models');
 
 // Crear un pedido
 ordersRouter.post('/', verifyToken, verifyRole(['shopper']) ,async (req, res) => {
@@ -65,19 +65,28 @@ ordersRouter.get('/:id', async (req, res) => {
 });
 
 // Actualizar un pedido
-ordersRouter.put('/:id', verifyToken, verifyRole(['shopper']) ,async (req, res) => {
+ordersRouter.put('/:id', verifyToken, verifyRole(['salesperson']) ,async (req, res) => {
   const { id } = req.params;
-  const { address, status } = req.body;
+  const { status } = req.body;
 
-  if (!address || !status) {
-    return res.status(400).json({ error: 'La dirección y el estado son obligatorios' });
+  if (!status) {
+    return res.status(400).json({ error: 'El estado es obligatorio' });
   }
 
-  try {
-    const updatedOrder = await orderModel.updateOrder(id, { address, status });
-    res.status(200).json(updatedOrder);
-  } catch (error) {
-    res.status(500).json({ error: 'Error al actualizar el pedido' });
+  const order = await orderModel.getOrderById(id)
+  const shopId = order.shopId
+  const shop = await shopsModel.getShopById(shopId)
+  const ownerId = shop.ownerId
+
+  if (req.user.id == ownerId) {
+    try {
+        const updatedOrder = await orderModel.updateOrder(id, { status });
+        res.status(200).json(updatedOrder);
+      } catch (error) {
+        res.status(500).json({ error: 'Error al actualizar el pedido' });
+      }
+  } else {
+      return response.status(403).json({ error: "No tienes permiso modificar esta order" });
   }
 });
 

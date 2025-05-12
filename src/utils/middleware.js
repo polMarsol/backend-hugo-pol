@@ -94,9 +94,7 @@ const verifyToken = (req, res, next) => {
         }
 
         req.user = decodedToken;
-        console.log(req.user.id)
-        console.log(req.user.username)
-        console.log(req.user.role)
+
 
         next();
     } catch (error) {
