@@ -1,54 +1,3 @@
-# Crear un pedido
-POST http://localhost:3001/api/order
-Content-Type: application/json
-
-{
-  "shopperId": 1,
-  "shopId": 2,
-  "address": "123 Main St",
-  "status": "pending",
-  "totalPrice": 100.50
-}
-
-###
-
-# Obtener todos los pedidos (mariag)
-GET http://localhost:3001/api/order
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwidXNlcm5hbWUiOiJtYXJpYWciLCJyb2xlIjoic2FsZXNwZXJzb24iLCJpYXQiOjE3NDcwNzY3NjgsImV4cCI6MTc0NzA4MDM2OH0.hWN8Zl8HBrxYFC3On4V7RNIBG13GQKJSVY_SdSDqYBU
-
-###
-
-# Obtener un pedido por ID
-GET http://localhost:3001/api/order/2
-
-###
-
-# Actualizar un pedido
-PUT http://localhost:3001/api/order/1
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwidXNlcm5hbWUiOiJtYXJpYWciLCJyb2xlIjoic2FsZXNwZXJzb24iLCJpYXQiOjE3NDcwNzY3NjgsImV4cCI6MTc0NzA4MDM2OH0.hWN8Zl8HBrxYFC3On4V7RNIBG13GQKJSVY_SdSDqYBU
-Content-Type: application/json
-
-{
-  "status": "shipped"
-}
-
-###
-
-# Eliminar un pedido
-DELETE http://localhost:3001/api/order/2
-
-###
-
-# Obtener un pedido inexistente (debe fallar)
-GET http://localhost:3001/api/order/99999
-
-###
-
-# Intentar eliminar un pedido inexistente (debe fallar)
-DELETE http://localhost:3001/api/order/99999
-
-###
-
 # Crear un pedido nuevo con productos nuevos
 POST http://localhost:3001/api/order
 Content-Type: application/json
@@ -68,4 +17,39 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwidXNlcm5hb
     }
   ]
 }
+
+###
+
+# Obtener todos los pedidos (mariag)
+GET http://localhost:3001/api/order
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwidXNlcm5hbWUiOiJtYXJpYWciLCJyb2xlIjoic2FsZXNwZXJzb24iLCJpYXQiOjE3NDcwODU2NTcsImV4cCI6MTc0NzA4OTI1N30.ovPfw1f_axQnNmQbwNdX86LopbyU8yNKGsyQ8PAOvj4
+
+###
+
+# Obtener un pedido por ID
+GET http://localhost:3001/api/order/1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwidXNlcm5hbWUiOiJtYXJpYWciLCJyb2xlIjoic2FsZXNwZXJzb24iLCJpYXQiOjE3NDcwODU2NTcsImV4cCI6MTc0NzA4OTI1N30.ovPfw1f_axQnNmQbwNdX86LopbyU8yNKGsyQ8PAOvj4
+
+
+###
+
+# Actualizar un pedido
+PUT http://localhost:3001/api/order/1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwidXNlcm5hbWUiOiJqdWFucCIsInJvbGUiOiJzaG9wcGVyIiwiaWF0IjoxNzQ3MDg2MTkyLCJleHAiOjE3NDcwODk3OTJ9.uXsOSojeJmaZCUey_HON576n9PQ-17NMBrlsiEJ3JBk
+Content-Type: application/json
+
+{
+  "status": "shipped"
+}
+
+###
+
+# Eliminar un pedido
+DELETE http://localhost:3001/api/order/1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwidXNlcm5hbWUiOiJtYXJpYWciLCJyb2xlIjoic2FsZXNwZXJzb24iLCJpYXQiOjE3NDcwODU2NTcsImV4cCI6MTc0NzA4OTI1N30.ovPfw1f_axQnNmQbwNdX86LopbyU8yNKGsyQ8PAOvj4
+
+
+###
+
+
 

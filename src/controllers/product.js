@@ -107,7 +107,7 @@ router.delete("/:id", verifyToken, verifyRole(['salesperson']) ,async (req, res)
 });
 
 // Agregar una imagen a un producto
-router.post("/:productId/images", async (req, res) => {
+router.post("/:productId/images", verifyToken, verifyRole(['salesperson']), async (req, res) => {
     try {
         const newImage = await productImagesModel.addProductImage({
             productId: req.params.productId,
@@ -130,7 +130,7 @@ router.get("/:productId/images", async (req, res) => {
 });
 
 // Eliminar todas las imágenes de un producto
-router.delete("/:productId/images", async (req, res) => {
+router.delete("/:productId/images", verifyToken, verifyRole(['salesperson']), async (req, res) => {
     try {
         await productImagesModel.deleteProductImagesByProductId(req.params.productId);
         res.status(200).json({ message: "Imagenes de producto correctamente eliminadas" });

@@ -50,14 +50,18 @@ ordersRouter.get('/', verifyToken, verifyRole(['shopper', 'salesperson']), async
 });
 
 // Obtener un pedido por ID
-ordersRouter.get('/:id', async (req, res) => {
+ordersRouter.get('/:id', verifyToken, verifyRole(['shopper', 'salesperson']), async (req, res) => {
   const { id } = req.params;
-
-  try {
-    const order = await orderModel.getOrderById(id);
-    if (!order) {
+  const order = await orderModel.getOrderById(id);
+  if (!order) {
       return res.status(404).json({ error: 'Pedido no encontrado' });
-    }
+  }
+  const shop = await shopsModel.getShopById(order.shopId)
+  const ownerId = shop.ownerId
+  try {
+    if(req.user.id !== order.shopperId && req.user.id !== ownerId) {
+      return res.status(403).json({ error: 'No tienes permiso para ver este pedido' });
+    }  
     res.json(order);
   } catch (error) {
     res.status(500).json({ error: 'Error al obtener el pedido' });
@@ -91,12 +95,15 @@ ordersRouter.put('/:id', verifyToken, verifyRole(['salesperson']) ,async (req, r
 });
 
 // Eliminar un pedido
-ordersRouter.delete('/:id', async (req, res) => {
+ordersRouter.delete('/:id', verifyToken, verifyRole(['salesperson']), async (req, res) => {
   const { id } = req.params;
 
-  try {
-    // Primero verificamos si el pedido existe
-    const order = await orderModel.getOrderById(id);
+  const order = await orderModel.getOrderById(id)
+  const shopId = order.shopId
+  const shop = await shopsModel.getShopById(shopId)
+  const ownerId = shop.ownerId
+  if(req.user.id === ownerId) {
+     try {
     if (!order) {
       return res.status(404).json({ error: 'Pedido no encontrado' });
     }
@@ -111,6 +118,9 @@ ordersRouter.delete('/:id', async (req, res) => {
   } catch (error) {
     console.error(error);  // Log para ver más detalles del error
     res.status(500).json({ error: 'Error al eliminar el pedido' });
+  }
+  } else {
+    return res.status(403).json({ error: "No tienes permiso para eliminar este pedido" });
   }
 });
 

@@ -1,34 +1,21 @@
 // PRODUCTS
 
-# Crear un producto con datos válidos role salesperson
+
+# Crear un producto nuevo para Tienda de María (shopId = 1)
 POST http://localhost:3001/api/products
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwidXNlcm5hbWUiOiJtYXJpYWciLCJyb2xlIjoic2FsZXNwZXJzb24iLCJpYXQiOjE3NDY5MDU1NTcsImV4cCI6MTc0NjkwOTE1N30.638GLUw82Gme0UpQPIn2dahY0f7ooNsVKSOUEirBmB8
 Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwidXNlcm5hbWUiOiJtYXJpYWciLCJyb2xlIjoic2FsZXNwZXJzb24iLCJpYXQiOjE3NDcwODQyMjAsImV4cCI6MTc0NzA4NzgyMH0.hBpys9b0yLZSjOUT39RJgh11IfMUR0YiM0teoZF8QuM
 
 {
-  "name": "Camiseta Deportiva",
   "shopId": 1,
-  "description": "Camiseta deportiva de alta calidad",
-  "price": 25.99,
-  "size": "M"
+  "name": "Chaqueta Roja",
+  "description": "Chaqueta impermeable con forro polar",
+  "price": 49.99,
+  "size": "L"
 }
 
 ###
 
-# Crear un producto con datos válidos role admin
-POST http://localhost:3001/api/products
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwiaWQiOjMsInJvbGUiOiJhZG1pbiIsImlhdCI6MTc0Mjc2ODQ0OSwiZXhwIjoxNzQyNzcyMDQ5fQ.9axKXgAGayC7oYYGOfBUfthLklK8eHFuudZvuw_y8Yo
-Content-Type: application/json
-
-{
-  "name": "Camiseta Deportiva",
-  "shopId": 1,
-  "description": "Camiseta deportiva de alta calidad",
-  "price": 25.99,
-  "size": "M"
-}
-
-###
 
 # Obtener todos los productos
 GET http://localhost:3001/api/products
@@ -42,7 +29,7 @@ GET http://localhost:3001/api/products/1
 
 # Actualizar un producto
 PUT http://localhost:3001/api/products/1
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwidXNlcm5hbWUiOiJtYXJpYWciLCJyb2xlIjoic2FsZXNwZXJzb24iLCJpYXQiOjE3NDY5MDU1NTcsImV4cCI6MTc0NjkwOTE1N30.638GLUw82Gme0UpQPIn2dahY0f7ooNsVKSOUEirBmB8
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwidXNlcm5hbWUiOiJtYXJpYWciLCJyb2xlIjoic2FsZXNwZXJzb24iLCJpYXQiOjE3NDcwODQyMjAsImV4cCI6MTc0NzA4NzgyMH0.hBpys9b0yLZSjOUT39RJgh11IfMUR0YiM0teoZF8QuM
 Content-Type: application/json
 
 {
@@ -56,35 +43,16 @@ Content-Type: application/json
 ###
 
 # Eliminar un producto por ID
-DELETE http://localhost:3001/api/products/3
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwidXNlcm5hbWUiOiJtYXJpYWciLCJyb2xlIjoic2FsZXNwZXJzb24iLCJpYXQiOjE3NDY5MDU1NTcsImV4cCI6MTc0NjkwOTE1N30.638GLUw82Gme0UpQPIn2dahY0f7ooNsVKSOUEirBmB8
+DELETE http://localhost:3001/api/products/2
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwidXNlcm5hbWUiOiJtYXJpYWciLCJyb2xlIjoic2FsZXNwZXJzb24iLCJpYXQiOjE3NDcwODQyMjAsImV4cCI6MTc0NzA4NzgyMH0.hBpys9b0yLZSjOUT39RJgh11IfMUR0YiM0teoZF8QuM
 Content-Type: application/json
-###
-
-# Crear un producto con datos inválidos (debe fallar)
-POST http://localhost:3001/api/products
-Content-Type: application/json
-
-{
-  "name": "Pantalón Deportivo"
-}
-
-###
-
-# Obtener un producto inexistente (debe fallar)
-GET http://localhost:3001/api/products/9999
-
-###
-
-# Eliminar un producto inexistente (debe fallar)
-DELETE http://localhost:3001/api/products/9999
-
 ###
 
 // PRODUCT IMAGES
 
 # Agregar una imagen a un producto
 POST http://localhost:3001/api/products/1/images
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwidXNlcm5hbWUiOiJtYXJpYWciLCJyb2xlIjoic2FsZXNwZXJzb24iLCJpYXQiOjE3NDcwODQyMjAsImV4cCI6MTc0NzA4NzgyMH0.hBpys9b0yLZSjOUT39RJgh11IfMUR0YiM0teoZF8QuM
 Content-Type: application/json
 
 {
@@ -100,33 +68,7 @@ GET http://localhost:3001/api/products/1/images
 
 # Eliminar todas las imágenes de un producto
 DELETE http://localhost:3001/api/products/1/images
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwidXNlcm5hbWUiOiJtYXJpYWciLCJyb2xlIjoic2FsZXNwZXJzb24iLCJpYXQiOjE3NDcwODQyMjAsImV4cCI6MTc0NzA4NzgyMH0.hBpys9b0yLZSjOUT39RJgh11IfMUR0YiM0teoZF8QuM
+
 
 ###
-
-
-# Crear un producto nuevo para Tienda de María (shopId = 1)
-POST http://localhost:3001/api/products
-Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwidXNlcm5hbWUiOiJtYXJpYWciLCJyb2xlIjoic2FsZXNwZXJzb24iLCJpYXQiOjE3NDcwNzY5NDQsImV4cCI6MTc0NzA4MDU0NH0.lOvqEsgLAou1xkppQ3pKEnfCXD2LdSE6qu8eGbQuMQQ
-
-{
-  "shopId": 1,
-  "name": "Chaqueta Roja",
-  "description": "Chaqueta impermeable con forro polar",
-  "price": 49.99,
-  "size": "L"
-}
-
-###
-
-# Crear un producto nuevo para ElectroCarlos (shopId = 2) no va perque aquest id es del admin i nomes pot crear un salesperson
-POST http://localhost:3001/api/products
-Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywidXNlcm5hbWUiOiJhZG1pbiIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTc0NzA3NzIyMywiZXhwIjoxNzQ3MDgwODIzfQ.DbJzfNEncPET2IrqSmDqEIYkomWX3YQpEoOi8SLilEE
-
-{
-  "shopId": 2,
-  "name": "Tablet Z10",
-  "description": "Tablet de 10 pulgadas con 64GB de memoria",
-  "price": 299.99
-}
