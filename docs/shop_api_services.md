@@ -67,6 +67,8 @@ Requiere token de usuario con rol `salesperson`.
 > ⚠️ **Nota:** No se verifica si el usuario es dueño de la tienda. 
 Se valorará durante la implementación del Frontend si controlar este hecho ahi o en la lógica de Backend.
 
+> ✅ DONE!
+
 **Retorna:**
 - `200` – Tienda actualizada correctamente.
 - `500` – Error al actualizar la tienda.
@@ -85,6 +87,8 @@ Parámetro `:id` en la URL.
 Requiere token con rol `salesperson` o `admin`.
 
 > ⚠️ **Nota:** No se valida si el `salesperson` es dueño de la tienda. Se valorará durante la implementación del Frontend si controlar este hecho ahi o en la lógica de Backend.
+
+> ✅ DONE!
 
 **Retorna:**
 - `204` – Eliminación exitosa.
@@ -139,6 +143,8 @@ Parámetros `:shopId` y `:categoryType` en la URL.
 Requiere token con rol `salesperson`.
 
 > ⚠️ **Nota:** No se verifica si el usuario es dueño de la tienda. Se valorará durante la implementación del Frontend si controlar este hecho ahi o en la lógica de Backend.
+
+> ✅ DONE!
 
 **Retorna:**
 - `204` – Categoría eliminada exitosamente.

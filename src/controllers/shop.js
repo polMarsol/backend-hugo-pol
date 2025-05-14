@@ -65,20 +65,34 @@ shopsRouter.get('/:id', async (req, res) => {
 // Actualizar una tienda
 shopsRouter.put('/:id', verifyToken, verifyRole(['salesperson']), async (req, res) => {
   const { id } = req.params;
-  const { ownerId, name, description } = req.body;
+  const { name, description } = req.body
 
-  try {
-    const updatedShop = await shopsModel.updateShop(id, { ownerId, name, description });
-    res.status(200).json(updatedShop);
-  } catch (error) {
-    res.status(500).json({ error: 'Error al actualizar la tienda' });
+  const shop = await shopsModel.getShopById(id);
+  if(!shop) {
+    return res.status(404).json({ error: 'Tienda no encontrada' });
+  }
+  if(req.user.id === shop.ownerId) {
+    try {
+      const updatedShop = await shopsModel.updateShop(id, { ownerId: req.user.id, name, description });
+      res.status(200).json(updatedShop);
+    } catch (error) {
+      res.status(500).json({ error: 'Error al actualizar la tienda' });
+    }
+  } else {
+    return res.status(403).json({ error: 'No tienes permiso para actualizar esta tienda' });
   }
 });
 
 // Eliminar una tienda y sus categorías asociadas
-shopsRouter.delete('/:id', verifyToken, verifyRole(['salesperson', 'admin']),async (req, res) => {
+shopsRouter.delete('/:id', verifyToken, verifyRole(['salesperson', 'admin']), async (req, res) => {
   const { id } = req.params;
-
+  const shop = await shopsModel.getShopById(id);
+  if (!shop) {
+    return res.status(404).json({ error: 'Tienda no encontrada' });
+  }
+  if(shop.ownerId !== req.user.id && req.user.role !== 'admin') {
+    return res.status(403).json({ error: 'No tienes permiso para eliminar esta tienda' });
+  }
   try {
     // Primero, eliminar las categorías asociadas a la tienda
     const categoriesDeleted = await shopCategoriesModel.deleteCategoriesByShopId(id);
@@ -146,13 +160,17 @@ shopsRouter.get('/:id/categories', async (req, res) => {
 
 
 // Eliminar una categoría de una tienda
-shopsRouter.delete('/:shopId/categories/:categoryType', verifyToken, verifyRole(['salesperson']), async (req, res) => {
+shopsRouter.delete('/:shopId/categories/:categoryType', verifyToken, verifyRole(['salesperson', 'admin']), async (req, res) => {
   const { shopId, categoryType } = req.params;
 
   try {
     const shop = await shopsModel.getShopById(shopId);
     if (!shop) {
       return res.status(404).json({ error: 'Tienda no encontrada' });
+    }
+
+    if(shop.ownerId !== req.user.id && req.user.role !== 'admin') {
+      return res.status(403).json({ error: 'No tienes permiso para eliminar esta tienda' });
     }
 
     await shopCategoriesModel.removeCategoryFromShop(shopId, categoryType);
