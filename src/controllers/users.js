@@ -29,6 +29,37 @@ usersRouter.post('/', verifyToken, verifyRole(['admin']), async (request, respon
     }
 });
 
+usersRouter.post('/signup', async (request, response) => {
+    const {name, username, password, email} = request.body;
+
+    const userToCheck = await usersModel.getUserByUsername(username);
+    if (userToCheck) { 
+        return response.status(400).json({ error: 'El nombre de usuario ya está en uso' });
+    } 
+    if (!name || !username || !password || !email) {
+        return response.status(400).json({ error: 'Faltan datos obligatorios' });
+    }
+    
+    const saltRounds = 10;
+    const passwordHash = await bcrypt.hash(password, saltRounds);
+
+    const user = {
+        username,
+        name,
+        password: passwordHash,
+        email,
+        role: 'shopper'
+    };
+
+    try {
+        const savedUser = await usersModel.createUser(user);
+        response.status(201).json(savedUser);
+    } catch (error) {
+        response.status(500).json({ error: 'Error al crear el usuario' });
+    }
+})
+
+
 
 
 usersRouter.get('/', verifyToken, verifyRole(['admin']), async (request, response) => {

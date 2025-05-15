@@ -15,7 +15,7 @@ Content-Type: application/json
 
 # Llistar usuaris
 GET http://localhost:3001/api/users
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwidXNlcm5hbWUiOiJtYXJpYWciLCJyb2xlIjoic2FsZXNwZXJzb24iLCJpYXQiOjE3NDcwNzkyODAsImV4cCI6MTc0NzA4Mjg4MH0.L-1XVTbrFAKJpjDN4jFUc2I8swYKzRHfbl2VilzwzlI
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywidXNlcm5hbWUiOiJhZG1pbiIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTc0NzMzNjg5OSwiZXhwIjoxNzQ3MzQwNDk5fQ.YsYiM8eduDNBTNJmt516Bh1EVuhD5u0n3jmEKrukRUE
 Content-Type: application/json
 
 ###
@@ -50,3 +50,14 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwidXNlcm5hb
 Content-Type: application/jsond
 
 ###
+
+
+POST http://localhost:3001/api/users/signup
+Content-Type: application/json
+
+{
+  "name": "Admin",
+  "username": "admin2",
+  "password": "admin1234",
+  "email": "user1@gmail.com"
+}
