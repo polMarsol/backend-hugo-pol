@@ -68,10 +68,10 @@ shopsRouter.put('/:id', verifyToken, verifyRole(['salesperson']), async (req, re
   const { name, description } = req.body
 
   const shop = await shopsModel.getShopById(id);
-  if(!shop) {
+  if (!shop) {
     return res.status(404).json({ error: 'Tienda no encontrada' });
   }
-  if(req.user.id === shop.ownerId) {
+  if (req.user.id === shop.ownerId) {
     try {
       const updatedShop = await shopsModel.updateShop(id, { ownerId: req.user.id, name, description });
       res.status(200).json(updatedShop);
@@ -90,7 +90,7 @@ shopsRouter.delete('/:id', verifyToken, verifyRole(['salesperson', 'admin']), as
   if (!shop) {
     return res.status(404).json({ error: 'Tienda no encontrada' });
   }
-  if(shop.ownerId !== req.user.id && req.user.role !== 'admin') {
+  if (shop.ownerId !== req.user.id && req.user.role !== 'admin') {
     return res.status(403).json({ error: 'No tienes permiso para eliminar esta tienda' });
   }
   try {
@@ -169,7 +169,18 @@ shopsRouter.delete('/:shopId/categories/:categoryType', verifyToken, verifyRole(
       return res.status(404).json({ error: 'Tienda no encontrada' });
     }
 
-    if(shop.ownerId !== req.user.id && req.user.role !== 'admin') {
+    if (!shop.categories) {
+      return res.status(404).json({ error: 'No se encontraron categorías para esta tienda' });
+    }
+
+    const categories = await shopCategoriesModel.getCategoriesByShopId(shopId)
+    const categoryExists = categories.some(cat => cat.type === categoryType);
+
+    if (!categoryExists) {
+      return res.status(404).json({ error: 'Categoría no encontrada' });
+    }
+
+    if (shop.ownerId !== req.user.id && req.user.role !== 'admin') {
       return res.status(403).json({ error: 'No tienes permiso para eliminar esta tienda' });
     }
 
