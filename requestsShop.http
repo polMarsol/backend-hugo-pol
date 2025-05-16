@@ -1,11 +1,11 @@
 //SHOPS
 # Crear una tienda con datos válidos
 POST http://localhost:3001/api/shops
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywidXNlcm5hbWUiOiJhZG1pbiIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTc0NzA4MjU5MSwiZXhwIjoxNzQ3MDg2MTkxfQ.2PicyfATGWVKRhU1zbrwUY5u8mQHQedp1acMjUopOtY
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywidXNlcm5hbWUiOiJhZG1pbiIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTc0NzQxMzc0NywiZXhwIjoxNzQ3NDE3MzQ3fQ.OT8mrUVfkTGyTDpsFF3ErPveLi0jVhK-mwywGazNynQ
 Content-Type: application/json
 
 {
-  "ownerId": 2,
+  "username": "mariag",
   "name": "Tienda de Deportes",
   "description": "Ropa y accesorios deportivos"
 }
@@ -42,8 +42,8 @@ Content-Type: application/json
 ###
 
 # Añadir una categoría a una tienda
-POST http://localhost:3001/api/shops/2/categories
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwidXNlcm5hbWUiOiJtYXJpYWciLCJyb2xlIjoic2FsZXNwZXJzb24iLCJpYXQiOjE3NDcwODI4MTMsImV4cCI6MTc0NzA4NjQxM30.D2KewR7TgP033smvIQwT93bxzR21NLtfnvDmYeZsx54
+POST http://localhost:3001/api/shops/3/categories
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwidXNlcm5hbWUiOiJtYXJpYWciLCJyb2xlIjoic2FsZXNwZXJzb24iLCJpYXQiOjE3NDc0MTM3OTAsImV4cCI6MTc0NzQxNzM5MH0.jQ5_LzhsjS6SBBiXztXZ0jJC1Y873cKF-lFrSjRs0Qk
 Content-Type: application/json
 
 {

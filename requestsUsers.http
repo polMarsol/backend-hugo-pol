@@ -15,7 +15,7 @@ Content-Type: application/json
 
 # Llistar usuaris
 GET http://localhost:3001/api/users
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywidXNlcm5hbWUiOiJhZG1pbiIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTc0NzMzNjg5OSwiZXhwIjoxNzQ3MzQwNDk5fQ.YsYiM8eduDNBTNJmt516Bh1EVuhD5u0n3jmEKrukRUE
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywidXNlcm5hbWUiOiJhZG1pbiIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTc0NzQxMTA3OCwiZXhwIjoxNzQ3NDE0Njc4fQ.tv-6Elc9wWT2t3kiBPBUXm9znULeR-a8PT8L8K0tPCQ
 Content-Type: application/json
 
 ###

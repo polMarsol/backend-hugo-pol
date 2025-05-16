@@ -7,15 +7,15 @@ const shopsRouter = express.Router();
 
 // Crear una tienda
 shopsRouter.post('/', verifyToken, verifyRole(['admin']), async (req, res) => {
-  const { ownerId, name, description } = req.body;
+  const { username, name, description } = req.body;
 
-  if (!ownerId || !name) {
-    return res.status(400).json({ error: 'El dueño (ownerId) y el nombre de la tienda son obligatorios' });
+  if (!username || !name) {
+    return res.status(400).json({ error: 'El dueño y el nombre de la tienda son obligatorios' });
   }
 
   try {
     // Verificamos si el ownerId existe y si tiene el rol de salesperson
-    const owner = await usersModel.getUserById(ownerId);
+    const owner = await usersModel.getUserByUsername(username);
 
     if (!owner) {
       return res.status(404).json({ error: 'El usuario dueño (ownerId) no existe' });
@@ -26,7 +26,7 @@ shopsRouter.post('/', verifyToken, verifyRole(['admin']), async (req, res) => {
     }
 
     // Si es un salesperson, crear la tienda
-    const newShop = await shopsModel.createShop({ ownerId, name, description });
+    const newShop = await shopsModel.createShop({ ownerId: owner.id, name, description });
     res.status(201).json(newShop);
   } catch (error) {
     res.status(500).json({ error: 'Error al crear la tienda' });
