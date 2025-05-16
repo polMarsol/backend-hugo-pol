@@ -15,7 +15,7 @@ Content-Type: application/json
 
 # Llistar usuaris
 GET http://localhost:3001/api/users
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywidXNlcm5hbWUiOiJhZG1pbiIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTc0NzQxMTA3OCwiZXhwIjoxNzQ3NDE0Njc4fQ.tv-6Elc9wWT2t3kiBPBUXm9znULeR-a8PT8L8K0tPCQ
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywidXNlcm5hbWUiOiJhZG1pbiIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTc0NzQxOTY0NCwiZXhwIjoxNzQ3NDIzMjQ0fQ.fPKnameZ4Fz5Nc6Ix4mYisrIqEv5p-v1rIH5nypqGOQ
 Content-Type: application/json
 
 ###
@@ -29,17 +29,14 @@ Content-Type: application/json
 
 # Actualizar usuario con datos válidos
 PUT http://localhost:3001/api/users/3
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwicm9sZSI6ImFkbWluIiwiaWF0IjoxNzQ2OTAwMDQ2LCJleHAiOjE3NDY5MDM2NDZ9.5gKBgfS66RlVMsvsgmo_7RU0fCxIDENld7Olsk7WfMQ
-Content-Type: application/jsond
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywidXNlcm5hbWUiOiJhZG1pbiIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTc0NzQxOTY0NCwiZXhwIjoxNzQ3NDIzMjQ0fQ.fPKnameZ4Fz5Nc6Ix4mYisrIqEv5p-v1rIH5nypqGOQ
+Content-Type: application/json
 
 {
-  "name": "Carlos López",
-  "username": "admin",
+  "name": "Carlos Lópezz",
   "email": "carlos@example.com",
-  "role": "admin",
-  "passwordActual": "admin1234",
-  "newPassword": "admin12345"
-
+  "passwordActual": "admin12345",
+  "newPassword": "admin1234"
 }
 
 

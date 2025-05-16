@@ -88,7 +88,7 @@ usersRouter.put('/:id', verifyToken, async (request, response) => {
         return response.status(403).json({ error: "No tienes permiso para modificar este usuario" });
     }
 
-    const { name, username, email, role, passwordActual, newPassword } = request.body;
+    const { name, email, passwordActual, newPassword } = request.body;
 
 
     const user = await usersModel.getUserById(id); // importante: usa getUserById, no por username
@@ -102,8 +102,6 @@ usersRouter.put('/:id', verifyToken, async (request, response) => {
         return response.status(400).json({ error: "Credenciales inválidas" });
     }
 
-    console.log("contrasenya: ", user.password)
-
     if (passwordActual) {
         const passwordCorrect = await bcrypt.compare(passwordActual, user.password);
         if (!passwordCorrect) {
@@ -111,7 +109,7 @@ usersRouter.put('/:id', verifyToken, async (request, response) => {
         }
     }
 
-    const updatedUser = { name, username, newPassword, email, role };
+    const updatedUser = { name, newPassword, email };
 
 
     if (newPassword) {
@@ -121,8 +119,6 @@ usersRouter.put('/:id', verifyToken, async (request, response) => {
 
 
     try {
-        console.log("id", id)
-        console.log("uptadetafew ", updatedUser)
         await usersModel.updateUser(id, updatedUser);
         response.status(200).json({ message: "Usuario actualizado correctamente" });
     } catch (error) {

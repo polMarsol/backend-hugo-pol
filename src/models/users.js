@@ -50,16 +50,14 @@ const getUserById = (id) => {
 
 const updateUser = (id, user) => {
     return new Promise((resolve, reject) => {
-        const {name, username, newPassword, email, role} = user
-        const sql = "UPDATE users SET name = ?, username = ?, password = ?, email = ?, role = ? WHERE id = ?"
+        const {name, newPassword, email} = user
+        const sql = "UPDATE users SET name = ?, password = ?, email = ? WHERE id = ?"
         
-        db.run(sql, [name, username, newPassword, email, role, id], function (err) {
+        db.run(sql, [name, newPassword, email, id], function (err) {
             err ? reject(err) : resolve({
                 id: id,
                 name: name,
-                username: username,
-                email: email,
-                role: role
+                email: email
             })
         })
     })
