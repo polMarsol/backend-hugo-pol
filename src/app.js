@@ -1,5 +1,6 @@
 const express = require("express")
 require("express-async-errors")
+const cors = require("cors")
 const { initDb } = require("./models")
 const middleware = require("./utils/middleware")
 const swaggerUi = require("swagger-ui-express")
@@ -11,6 +12,8 @@ const ProductsRouter = require("./controllers/product")
 const loginRouter = require('./controllers/login')
 
 const app = express()
+app.use(cors())
+
 initDb()
 
 app.use(express.json())
