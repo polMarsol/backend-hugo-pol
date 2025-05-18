@@ -120,7 +120,7 @@ const initDb = () => {
             ('Camiseta Blanca', 1, 'Camiseta de algodón color blanco', 19.99, 'M'),
             ('Pantalón Negro', 1, 'Pantalón de mezclilla negro', 39.99, 'L'),
             ('Smartphone X', 2, 'Teléfono inteligente con 128GB de almacenamiento', 599.99, NULL),
-            ('Hugo', 4, 'Calvicie extrema, buena calva para reflejarse como en un espejo', 9.99, XXL),
+            ('Hugo', 1, 'Calvicie extrema, buena calva para reflejarse como en un espejo', 9.99, 'XXL')
 
         `);
  
