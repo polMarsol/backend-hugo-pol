@@ -22,7 +22,7 @@ const createUser = user => {
 
 const getAllUsers = () => {
     return new Promise((resolve, reject) => {
-        db.all("SELECT name, username, email, role FROM users", [], (err, rows) => {
+        db.all("SELECT id, name, username, email, role FROM users", [], (err, rows) => {
             err ? reject(err) : resolve(rows)
         })
     })
