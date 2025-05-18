@@ -119,14 +119,18 @@ const initDb = () => {
         db.run(`INSERT INTO products (name, shopId, description, price, size) VALUES
             ('Camiseta Blanca', 1, 'Camiseta de algodón color blanco', 19.99, 'M'),
             ('Pantalón Negro', 1, 'Pantalón de mezclilla negro', 39.99, 'L'),
-            ('Smartphone X', 2, 'Teléfono inteligente con 128GB de almacenamiento', 599.99, NULL)
+            ('Smartphone X', 2, 'Teléfono inteligente con 128GB de almacenamiento', 599.99, NULL),
+            ('Hugo', 4, 'Calvicie extrema, buena calva para reflejarse como en un espejo', 9.99, XXL),
+
         `);
  
         // Product Images
         db.run(`INSERT INTO product_images (productId, image) VALUES
             (1, 'https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?q=80&w=1480&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'),
             (2, 'https://images.unsplash.com/photo-1548883354-7622d03aca27?w=400&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTR8fGJsYWNrJTIwcGFudHxlbnwwfHwwfHx8MA%3D%3D'),
-            (3, 'https://images.unsplash.com/photo-1515054562254-30a1b0ebe227?w=400&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8aXBob25lJTIweHxlbnwwfHwwfHx8MA%3D%3D')
+            (3, 'https://images.unsplash.com/photo-1515054562254-30a1b0ebe227?w=400&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8aXBob25lJTIweHxlbnwwfHwwfHx8MA%3D%3D'),
+            (4, 'https://images.unsplash.com/photo-1738486226945-ef310003c9b2?w=400&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MzR8fGJhbGR8ZW58MHx8MHx8fDA%3D')
+
         `);
  
         // Orders
