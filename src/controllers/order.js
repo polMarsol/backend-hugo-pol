@@ -33,21 +33,37 @@ ordersRouter.post('/', verifyToken, verifyRole(['shopper']) ,async (req, res) =>
 });
 
 // Obtener todos los pedidos
+// Obtener todos los pedidos
 ordersRouter.get('/', verifyToken, verifyRole(['shopper', 'salesperson']), async (req, res) => {
   try {
-    let orders
-    if(req.user.role === 'shopper') {
-      orders = await orderModel.getOrdersByShopperId(req.user.id)
+    let orders;
+    if (req.user.role === 'shopper') {
+      orders = await orderModel.getOrdersByShopperId(req.user.id);
     } else if (req.user.role === 'salesperson') {
       const shopIds = await orderModel.getShopIdsByOwnerId(req.user.id);
       orders = await orderModel.getOrdersByShopIds(shopIds);
     }
-    res.json(orders)
+
+    // Añadir detalles: nombre de tienda y productos
+    const detailedOrders = await Promise.all(
+      orders.map(async (order) => {
+        const shop = await shopsModel.getShopById(order.shopId); 
+        const products = await orderListProductsModel.getProductsByOrderId(order.id);
+        return {
+          ...order,
+          shopName: shop?.name || 'Tienda desconocida',
+          products: products || []
+        };
+      })
+    );
+
+    res.json(detailedOrders); // Enviar pedidos con info añadida
   } catch (error) {
-    console.error(error)
+    console.error(error);
     res.status(500).json({ error: 'Error al obtener los pedidos' });
   }
 });
+
 
 // Obtener un pedido por ID
 ordersRouter.get('/:id', verifyToken, verifyRole(['shopper', 'salesperson']), async (req, res) => {

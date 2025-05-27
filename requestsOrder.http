@@ -22,9 +22,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwidXNlcm5hb
 
 # Obtener todos los pedidos (mariag)
 GET http://localhost:3001/api/order
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwidXNlcm5hbWUiOiJtYXJpYWciLCJyb2xlIjoic2FsZXNwZXJzb24iLCJpYXQiOjE3NDcwODU2NTcsImV4cCI6MTc0NzA4OTI1N30.ovPfw1f_axQnNmQbwNdX86LopbyU8yNKGsyQ8PAOvj4
-
-###
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwidXNlcm5hbWUiOiJqdWFucCIsInJvbGUiOiJzaG9wcGVyIiwiaWF0IjoxNzQ4MzU1Njc0LCJleHAiOjE3NDgzNTkyNzR9.hE0Ry6CT9tvZUyRtZPXunuMJ1KTy3bO2ajxkIPWapqU
 
 # Obtener un pedido por ID
 GET http://localhost:3001/api/order/1

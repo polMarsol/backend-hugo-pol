@@ -12,16 +12,22 @@ const addProductToOrder = ({ orderId, productId, quantity, totalProductPrice }) 
     });
 };
 
-// Obtener todos los productos de un pedido
+// Obtener todos los productos de un pedido, incluyendo el nombre del producto
 const getProductsByOrderId = (orderId) => {
     return new Promise((resolve, reject) => {
-        const sql = `SELECT * FROM order_list_products WHERE orderId = ?`;
+        const sql = `
+            SELECT olp.productId, olp.quantity, olp.totalProductPrice, p.name AS productName
+            FROM order_list_products olp
+            JOIN products p ON olp.productId = p.id
+            WHERE olp.orderId = ?
+        `;
         db.all(sql, [orderId], (err, rows) => {
             if (err) reject(err);
             else resolve(rows);
         });
     });
 };
+
 
 // Actualizar la cantidad de un producto en un pedido
 const updateProductInOrder = (orderId, productId, quantity, totalProductPrice) => {
